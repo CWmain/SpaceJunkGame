@@ -12,7 +12,7 @@ func _ready():
 	for overlapping in intersection:
 		var intersection_polygon = Polygon2D.new()
 		print(overlapping)
-		intersection_polygon.transform = cutter.transform
+		intersection_polygon.transform = to_cut.transform
 		intersection_polygon.color = Color.ROSY_BROWN
 		intersection_polygon.set_polygon(overlapping)
 		self.add_child(intersection_polygon)
