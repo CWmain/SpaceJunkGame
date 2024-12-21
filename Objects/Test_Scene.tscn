@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://n468ffa12goh"]
+
+[ext_resource type="Script" path="res://Objects/Test_Scene.gd" id="1_gvyoo"]
+[ext_resource type="Texture2D" uid="uid://vc30gqw53emc" path="res://Sprites/AsteroidTexture.png" id="2_dhefl"]
+
+[node name="Test_Scene" type="Node2D"]
+script = ExtResource("1_gvyoo")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(-14, 75, -53, 183, -88, 96, -58, 68, -47, -14, 8, 17)
+closed = true
+
+[node name="AsteroidTexture" type="Polygon2D" parent="."]
+texture_repeat = 2
+position = Vector2(212, 106)
+texture = ExtResource("2_dhefl")
+polygon = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16, 50, 50)
+uv = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16, 50, 50)
+polygons = [PackedInt32Array(0, 1, 2, 3, 4)]
+
+[node name="ToTest" type="Polygon2D" parent="."]
+texture_repeat = 2
+position = Vector2(258, 259)
+texture = ExtResource("2_dhefl")
+polygon = PackedVector2Array(70, 15, 47, 61, -31, 34, -65, -18, -43, -75)
