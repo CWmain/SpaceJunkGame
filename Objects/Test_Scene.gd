@@ -2,14 +2,20 @@ extends Node2D
 
 var cut_line: Line2D
 
-@onready var to_test = $ToTest
+@onready var to_cut : Polygon2D = $ToCut
+@onready var cutter : Polygon2D = $Cutter
 
-func _ready():
-	cut_line = Line2D.new()
-	self.add_child(cut_line)
 	
-func _process(_delta):
-	place_point()
+func _ready():
+	var intersection = Geometry2D.clip_polygons(to_cut.polygon, cutter.polygon)
+
+	for overlapping in intersection:
+		var intersection_polygon = Polygon2D.new()
+		print(overlapping)
+		intersection_polygon.transform = cutter.transform
+		intersection_polygon.color = Color.ROSY_BROWN
+		intersection_polygon.set_polygon(overlapping)
+		self.add_child(intersection_polygon)
 	
 func place_point():
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -45,7 +51,7 @@ func complete_shape():
 		print("shape complete!")
 		print(cut_line.points)
 		var intersection_calc = Geometry2D.clip_polygons.call(
-				to_test.polygon, cut_line.points
+				to_cut.polygon, cut_line.points
 		)
 		prints("intersection calc", intersection_calc)
 		for overlapping_polygon in intersection_calc:
@@ -55,4 +61,4 @@ func complete_shape():
 			intersection_polygon.color = Color.GREEN
 			intersection_polygon.set_polygon(overlapping_polygon)
 			print(intersection_polygon.polygon)
-		self.remove_child(to_test)
+		self.remove_child(to_cut)
