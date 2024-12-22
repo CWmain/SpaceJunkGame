@@ -14,7 +14,8 @@ func _ready():
 
 	for overlapping in intersection:
 		var intersection_polygon = Polygon2D.new()
-		print(overlapping)
+
+
 		intersection_polygon.transform = to_cut.transform
 		intersection_polygon.color = Color.ROSY_BROWN
 		intersection_polygon.set_polygon(overlapping)
@@ -34,7 +35,7 @@ func place_point():
 		return
 
 	if Input.is_action_just_pressed("PlacePoint"):
-		print('drew')
+
 		var dist_to_last_point = 0
 
 		cut_line.add_point(mouse_pos)
@@ -52,7 +53,7 @@ func adjust_for_first_point():
 		
 func complete_shape():
 	var dist = cut_line.points[0].distance_to(cut_line.points[-1])
-	prints("dist", dist)
+
 
 	if len(cut_line.points) > 1:
 		print("shape complete!")
@@ -72,12 +73,12 @@ func complete_shape():
 
 func move_cut():
 	if Input.is_action_just_pressed("PlacePoint"):
-		print("Pressed")
+
 		for entity in cutting_tool.get_overlapping_bodies():
 			var tc1 : PackedVector2Array = entity.get_child(0).polygon.duplicate()
 			for i in range(tc1.size()):
 				
-				tc1[i] *= cos(entity.rotation)
+				#tc1[i] *= cos(entity.rotation)
 				tc1[i] += entity.position
 				
 
@@ -98,6 +99,3 @@ func move_cut():
 				intersection_polygon.set_polygon(overlapping)
 				get_tree().get_root().add_child(intersection_polygon)
 
-
-func _on_cutting_tool_body_entered(body):
-	print("worrrk")

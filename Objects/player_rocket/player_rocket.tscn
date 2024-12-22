@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyn3wc664s0kq"]
+
+[ext_resource type="Script" path="res://Objects/player_rocket/player_rocket.gd" id="1_cbxua"]
+[ext_resource type="Texture2D" uid="uid://crjg8kcry5dxr" path="res://Sprites/TempRocket.png" id="1_jlamr"]
+[ext_resource type="Texture2D" uid="uid://vc30gqw53emc" path="res://Sprites/AsteroidTexture.png" id="3_smh8x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_78i1v"]
+size = Vector2(64, 32)
+
+[node name="PlayerRocket" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_cbxua")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_78i1v")
+
+[node name="TempRocket" type="Sprite2D" parent="."]
+position = Vector2(0, 16)
+texture = ExtResource("1_jlamr")
+
+[node name="CuttingTool" type="Area2D" parent="."]
+position = Vector2(-16, 0)
+collision_layer = 2
+collision_mask = 2
+
+[node name="Cutter" type="Polygon2D" parent="CuttingTool"]
+texture_repeat = 2
+texture = ExtResource("3_smh8x")
+polygon = PackedVector2Array(32, -100, 0, -100, 0, 0, 32, 0)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CuttingTool"]
+polygon = PackedVector2Array(32, -100, 0, -100, 0, 0, 32, 0)

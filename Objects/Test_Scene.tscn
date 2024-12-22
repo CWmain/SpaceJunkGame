@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://n468ffa12goh"]
+[gd_scene load_steps=6 format=3 uid="uid://n468ffa12goh"]
 
 [ext_resource type="Script" path="res://Objects/Test_Scene.gd" id="1_gvyoo"]
 [ext_resource type="Texture2D" uid="uid://vc30gqw53emc" path="res://Sprites/AsteroidTexture.png" id="2_dhefl"]
 [ext_resource type="Script" path="res://Objects/Cutter.gd" id="3_3ngli"]
+[ext_resource type="PackedScene" uid="uid://dyn3wc664s0kq" path="res://Objects/player_rocket/player_rocket.tscn" id="4_5qqnx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0fm31"]
 size = Vector2(109.7, 20)
@@ -26,7 +27,7 @@ polygon = PackedVector2Array(-85, -30, 160, -30, 161, -15, -86, -15)
 position = Vector2(-218, -30)
 collision_layer = 3
 collision_mask = 3
-gravity_scale = 0.1
+gravity_scale = 0.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroid"]
 polygon = PackedVector2Array(-20, 24, -48, -15, -3, -36, 12, -24)
@@ -58,5 +59,8 @@ polygon = PackedVector2Array(-85, -30, 160, -30, 161, -15, -86, -15)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CuttingTool"]
 polygon = PackedVector2Array(-85, -30, 160, -30, 161, -15, -86, -15)
+
+[node name="PlayerRocket" parent="." instance=ExtResource("4_5qqnx")]
+position = Vector2(-150, -107)
 
 [connection signal="body_entered" from="CuttingTool" to="." method="_on_cutting_tool_body_entered"]
