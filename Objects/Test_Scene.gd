@@ -5,6 +5,9 @@ var cut_line: Line2D
 @onready var to_cut : Polygon2D = $ToCut
 @onready var cutter : Polygon2D = $Cutter
 
+@onready var cutting_tool = $CuttingTool
+@onready var asteroid = $Asteroid
+
 	
 func _ready():
 	var intersection = Geometry2D.clip_polygons(to_cut.polygon, cutter.polygon)
@@ -16,6 +19,10 @@ func _ready():
 		intersection_polygon.color = Color.ROSY_BROWN
 		intersection_polygon.set_polygon(overlapping)
 		self.add_child(intersection_polygon)
+
+func _process(_delta):
+	print(asteroid.rotation)
+	move_cut()
 	
 func place_point():
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -62,3 +69,35 @@ func complete_shape():
 			intersection_polygon.set_polygon(overlapping_polygon)
 			print(intersection_polygon.polygon)
 		self.remove_child(to_cut)
+
+func move_cut():
+	if Input.is_action_just_pressed("PlacePoint"):
+		print("Pressed")
+		for entity in cutting_tool.get_overlapping_bodies():
+			var tc1 : PackedVector2Array = entity.get_child(0).polygon.duplicate()
+			for i in range(tc1.size()):
+				
+				tc1[i] *= cos(entity.rotation)
+				tc1[i] += entity.position
+				
+
+			var c1 : PackedVector2Array = cutting_tool.cutter.polygon.duplicate()
+			for i in range(c1.size()):
+
+				c1[i] = c1[i]+cutting_tool.position
+
+			
+			var intersection = Geometry2D.clip_polygons(tc1, c1)
+			#var intersection = Geometry2D.clip_polygons(entity.get_child(0).polygon, cutting_tool.cutter.polygon)
+
+			for overlapping in intersection:
+
+				var intersection_polygon = Polygon2D.new()
+				#intersection_polygon.transform = entity.transform
+				intersection_polygon.color = Color.ROSY_BROWN
+				intersection_polygon.set_polygon(overlapping)
+				get_tree().get_root().add_child(intersection_polygon)
+
+
+func _on_cutting_tool_body_entered(body):
+	print("worrrk")

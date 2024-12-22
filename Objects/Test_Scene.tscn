@@ -22,16 +22,16 @@ polygon = PackedVector2Array(-85, -30, 160, -30, 161, -15, -86, -15)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="Asteroid" type="RigidBody2D" parent="."]
 position = Vector2(-218, -30)
 collision_layer = 3
 collision_mask = 3
-gravity_scale = 0.01
+gravity_scale = 0.1
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RigidBody2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroid"]
 polygon = PackedVector2Array(-20, 24, -48, -15, -3, -36, 12, -24)
 
-[node name="Cutter" type="Polygon2D" parent="RigidBody2D"]
+[node name="Cutter" type="Polygon2D" parent="Asteroid"]
 texture_repeat = 2
 texture = ExtResource("2_dhefl")
 polygon = PackedVector2Array(-20, 24, -48, -15, -3, -36, 12, -24)
@@ -46,17 +46,17 @@ position = Vector2(2.50003, 175)
 scale = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_0fm31")
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 3
-collision_mask = 3
+[node name="CuttingTool" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("3_3ngli")
 
-[node name="Cutter" type="Polygon2D" parent="Area2D"]
+[node name="Cutter" type="Polygon2D" parent="CuttingTool"]
 texture_repeat = 2
 texture = ExtResource("2_dhefl")
 polygon = PackedVector2Array(-85, -30, 160, -30, 161, -15, -86, -15)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CuttingTool"]
 polygon = PackedVector2Array(-85, -30, 160, -30, 161, -15, -86, -15)
 
-[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
+[connection signal="body_entered" from="CuttingTool" to="." method="_on_cutting_tool_body_entered"]
