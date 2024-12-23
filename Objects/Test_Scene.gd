@@ -79,13 +79,12 @@ func move_cut():
 			for i in range(tc1.size()):
 				
 				#tc1[i] *= cos(entity.rotation)
-				tc1[i] += entity.position
+				tc1[i] = entity.to_global(tc1[i])
 				
 
 			var c1 : PackedVector2Array = cutting_tool.cutter.polygon.duplicate()
 			for i in range(c1.size()):
-
-				c1[i] = c1[i]+cutting_tool.position
+				c1[i] = cutting_tool.to_global(c1[i])
 
 			
 			var intersection = Geometry2D.clip_polygons(tc1, c1)
