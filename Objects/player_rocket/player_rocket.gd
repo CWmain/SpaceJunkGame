@@ -18,7 +18,7 @@ func _process(_delta):
 	if Input.is_action_just_pressed("Cut"):
 		asteroidCut()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Add the drag.
 	#if not is_on_floor():
 	#	velocity.y += gravity * delta
@@ -37,7 +37,6 @@ func _physics_process(delta):
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	
 	var rot = Input.get_axis("TurnLeft", "TurnRight")
-	print(rot)
 	if rot:
 		rotate(rot * ROTATION_SPEED)
 
@@ -60,7 +59,7 @@ func asteroidCut():
 
 		#TODO: Shift the Polygon back to local space and shift the object itself, as I feel issues may arise if not done this way
 		for overlapping in intersection:
-			var splitAsteroid = asteroid.instantiate()
+			var splitAsteroid: Asteroid = asteroid.instantiate()
 			get_tree().get_root().add_child(splitAsteroid)
 			var localOverLapping = overlapping.duplicate()
 			
@@ -71,6 +70,7 @@ func asteroidCut():
 			# Shift the asteroid object back to the global location
 			splitAsteroid.set_transform(entity.transform)
 			splitAsteroid.set_polygons(localOverLapping)
+			
 		
 		entity.queue_free()
 

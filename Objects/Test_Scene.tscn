@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Objects/Test_Scene.gd" id="1_gvyoo"]
 [ext_resource type="Texture2D" uid="uid://vc30gqw53emc" path="res://Sprites/AsteroidTexture.png" id="2_dhefl"]
-[ext_resource type="Script" path="res://Objects/Cutter.gd" id="3_3ngli"]
 [ext_resource type="PackedScene" uid="uid://dyn3wc664s0kq" path="res://Objects/player_rocket/player_rocket.tscn" id="4_5qqnx"]
+[ext_resource type="PackedScene" uid="uid://prsjoep6c2o0" path="res://Objects/asteroid/asteroid.tscn" id="4_tsibv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0fm31"]
 size = Vector2(109.7, 20)
@@ -11,22 +11,13 @@ size = Vector2(109.7, 20)
 [node name="Test_Scene" type="Node2D"]
 script = ExtResource("1_gvyoo")
 
-[node name="ToCut" type="Polygon2D" parent="."]
-texture_repeat = 2
-texture = ExtResource("2_dhefl")
-polygon = PackedVector2Array(70, 15, 47, 61, -31, 34, -65, -18, -43, -75)
-
-[node name="Cutter" type="Polygon2D" parent="."]
-texture_repeat = 2
-texture = ExtResource("2_dhefl")
-polygon = PackedVector2Array(-85, -30, 160, -30, 161, -15, -86, -15)
-
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="Asteroid" type="RigidBody2D" parent="."]
 position = Vector2(-218, -30)
 collision_layer = 3
 collision_mask = 3
+gravity_scale = 0.01
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroid"]
 polygon = PackedVector2Array(-20, 24, -48, -15, -3, -36, 12, -24)
@@ -46,20 +37,8 @@ position = Vector2(2.50003, 175)
 scale = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_0fm31")
 
-[node name="CuttingTool" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 2
-script = ExtResource("3_3ngli")
-
-[node name="Cutter" type="Polygon2D" parent="CuttingTool"]
-texture_repeat = 2
-texture = ExtResource("2_dhefl")
-polygon = PackedVector2Array(-85, -30, 160, -30, 161, -15, -86, -15)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CuttingTool"]
-polygon = PackedVector2Array(-85, -30, 160, -30, 161, -15, -86, -15)
-
 [node name="PlayerRocket" parent="." instance=ExtResource("4_5qqnx")]
 position = Vector2(-150, -107)
 
-[connection signal="body_entered" from="CuttingTool" to="." method="_on_cutting_tool_body_entered"]
+[node name="Asteroid2" parent="." instance=ExtResource("4_tsibv")]
+position = Vector2(-385, -145)

@@ -1,4 +1,6 @@
+class_name Asteroid
 extends RigidBody2D
+
 
 @onready var hit_box : CollisionPolygon2D = $HitBox
 @onready var visual : Polygon2D = $Visual
