@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://crjg8kcry5dxr"
-path="res://.godot/imported/TempRocket.png-9a0f9012fbfea1f4c98c4b91b123ddf1.ctex"
+path="res://.godot/imported/TempRocket.png-7c68de567f94298c180987ebd02a3c88.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/TempRocket.png"
-dest_files=["res://.godot/imported/TempRocket.png-9a0f9012fbfea1f4c98c4b91b123ddf1.ctex"]
+source_file="res://Objects/player_rocket/TempRocket.png"
+dest_files=["res://.godot/imported/TempRocket.png-7c68de567f94298c180987ebd02a3c88.ctex"]
 
 [params]
 
