@@ -1,9 +1,10 @@
 extends RigidBody2D
 
-@onready var hit_box = $HitBox
-@onready var visual = $Visual
+@onready var hit_box : CollisionPolygon2D = $HitBox
+@onready var visual : Polygon2D = $Visual
 
-#TODO: When created they should move away from the cutting tool
+#TODO: When created they should move away from the cutting tool, not sure where to place logic
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,7 +16,9 @@ func _process(delta):
 	pass
 
 ## Sets the collision and visual polygon of Asteroid
-func setPolygons(p: PackedVector2Array):
-	hit_box.polygon = p
-	visual.polygon = p
+func set_polygons(p: PackedVector2Array):
+	if (p == null):
+		return
+	hit_box.set_polygon(p)
+	visual.set_polygon(p)
 	

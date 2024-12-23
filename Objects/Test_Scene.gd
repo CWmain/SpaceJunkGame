@@ -22,7 +22,6 @@ func _ready():
 		self.add_child(intersection_polygon)
 
 func _process(_delta):
-	print(asteroid.rotation)
 	move_cut()
 	
 func place_point():

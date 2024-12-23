@@ -9,6 +9,8 @@ const JUMP_VELOCITY = -100.0
 @onready var cutting_tool = $CuttingTool
 @onready var collision_polygon = $CuttingTool/CollisionPolygon
 
+var asteroid = preload("res://Objects/asteroid/asteroid.tscn")
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -56,10 +58,11 @@ func asteroidCut():
 		
 		var intersection = Geometry2D.clip_polygons(tc1, c1)
 
-		# TODO: Update with proper asteroid contruction rather than outline
+		#TODO: Shift the Polygon back to local space and shift the object itself, as I feel issues may arise if not done this way
 		for overlapping in intersection:
-			var intersection_polygon = Polygon2D.new()
-			#intersection_polygon.transform = entity.transform
-			intersection_polygon.color = Color.ROSY_BROWN
-			intersection_polygon.set_polygon(overlapping)
-			get_tree().get_root().add_child(intersection_polygon)
+			var splitAsteroid = asteroid.instantiate()
+			get_tree().get_root().add_child(splitAsteroid)
+			splitAsteroid.set_polygons(overlapping)
+		
+		entity.queue_free()
+
