@@ -5,6 +5,8 @@ const SPEED = 300.0
 const STOP_SPEED = 300.0
 const ROTATION_SPEED = PI/64
 const JUMP_VELOCITY = -100.0
+## Variable to control how small an asteroid can get
+const MIN_ASTEROID_SIZE = 35
 
 @onready var cutting_tool = $CuttingTool
 @onready var collision_polygon = $CuttingTool/CollisionPolygon
@@ -59,15 +61,31 @@ func asteroidCut():
 
 		#NOTICE: If preformace issues consider object pooling for asteroids
 		for overlapping in intersection:
-			var splitAsteroid: Asteroid = asteroid.instantiate()
-			get_tree().get_root().add_child(splitAsteroid)
+			#region Localise Polygon and find its max height and width
+			var largeX: int = -9223372036854775808
+			var largeY: int = -9223372036854775808
+			var smallX: int = 9223372036854775807 
+			var smallY: int = 9223372036854775807 
 			var localOverLapping = overlapping.duplicate()
-			
-			#TODO: Consider calculating mass for each asteroid
-			
-			#region Shift the polygon into local and apply attributes to asteroid
 			for i in range(localOverLapping.size()):
 				localOverLapping[i] = entity.to_local(localOverLapping[i])
+				smallX = min(smallX, localOverLapping[i].x)
+				smallY = min(smallY, localOverLapping[i].y)
+				largeX = max(largeX, localOverLapping[i].x)
+				largeY = max(largeY, localOverLapping[i].y)
+			#endregion	
+			
+			print("X: ", largeX-smallX, " Y: ", largeY-smallY)
+			
+			#TODO: Play a shattering partile effect the emphasis destruction of asteroid
+			if (largeX-smallX < MIN_ASTEROID_SIZE or largeY-smallY < MIN_ASTEROID_SIZE):
+				continue
+			
+			var splitAsteroid: Asteroid = asteroid.instantiate()
+			get_tree().get_root().add_child(splitAsteroid)
+			
+			#TODO: Consider calculating mass for each asteroid
+			#region Apply attributes to asteroid
 			splitAsteroid.set_transform(entity.transform)
 			splitAsteroid.set_linear_velocity(entity.get_linear_velocity())
 			splitAsteroid.set_angular_velocity(entity.get_angular_velocity())
