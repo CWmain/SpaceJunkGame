@@ -45,31 +45,34 @@ func _physics_process(_delta):
 
 func asteroidCut():
 	for entity in cutting_tool.get_overlapping_bodies():
-		# TODO: Update when the proper asteroid object is made
-		var tc1 : PackedVector2Array = entity.get_child(0).polygon.duplicate()
-		for i in range(tc1.size()):
-			tc1[i] = entity.to_global(tc1[i])
-			
-		var c1 : PackedVector2Array = collision_polygon.polygon.duplicate()
-		for i in range(c1.size()):
-			c1[i] = cutting_tool.to_global(c1[i])
-
+		# Shift both polygons into the global space so an intersection can be made
+		#region Global Polygon Calculation
+		var toCutPolygon : PackedVector2Array = entity.get_child(0).polygon.duplicate()
+		for i in range(toCutPolygon.size()):
+			toCutPolygon[i] = entity.to_global(toCutPolygon[i])			
+		var cutterPolygon : PackedVector2Array = collision_polygon.polygon.duplicate()
+		for i in range(cutterPolygon.size()):
+			cutterPolygon[i] = cutting_tool.to_global(cutterPolygon[i])
+		#endregion
 		
-		var intersection = Geometry2D.clip_polygons(tc1, c1)
+		var intersection = Geometry2D.clip_polygons(toCutPolygon, cutterPolygon)
 
-		#TODO: Shift the Polygon back to local space and shift the object itself, as I feel issues may arise if not done this way
+		#NOTICE: If preformace issues consider object pooling for asteroids
 		for overlapping in intersection:
 			var splitAsteroid: Asteroid = asteroid.instantiate()
 			get_tree().get_root().add_child(splitAsteroid)
 			var localOverLapping = overlapping.duplicate()
 			
-			# Shift the polygon back into local space
+			#TODO: Consider calculating mass for each asteroid
+			
+			#region Shift the polygon into local and apply attributes to asteroid
 			for i in range(localOverLapping.size()):
 				localOverLapping[i] = entity.to_local(localOverLapping[i])
-			
-			# Shift the asteroid object back to the global location
 			splitAsteroid.set_transform(entity.transform)
+			splitAsteroid.set_linear_velocity(entity.get_linear_velocity())
+			splitAsteroid.set_angular_velocity(entity.get_angular_velocity())
 			splitAsteroid.set_polygons(localOverLapping)
+			#endregion
 			
 		
 		entity.queue_free()
