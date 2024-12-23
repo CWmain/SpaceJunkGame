@@ -62,7 +62,15 @@ func asteroidCut():
 		for overlapping in intersection:
 			var splitAsteroid = asteroid.instantiate()
 			get_tree().get_root().add_child(splitAsteroid)
-			splitAsteroid.set_polygons(overlapping)
+			var localOverLapping = overlapping.duplicate()
+			
+			# Shift the polygon back into local space
+			for i in range(localOverLapping.size()):
+				localOverLapping[i] = entity.to_local(localOverLapping[i])
+			
+			# Shift the asteroid object back to the global location
+			splitAsteroid.set_transform(entity.transform)
+			splitAsteroid.set_polygons(localOverLapping)
 		
 		entity.queue_free()
 
