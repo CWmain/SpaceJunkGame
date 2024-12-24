@@ -3,16 +3,18 @@
 [ext_resource type="Script" path="res://Objects/player_rocket/player_rocket.gd" id="1_cbxua"]
 [ext_resource type="Texture2D" uid="uid://crjg8kcry5dxr" path="res://Objects/player_rocket/TempRocket.png" id="1_jlamr"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_78i1v"]
-size = Vector2(64, 32)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fhkwb"]
+radius = 16.0
+height = 64.0
 
-[node name="PlayerRocket" type="CharacterBody2D"]
-motion_mode = 1
+[node name="PlayerRocket" type="RigidBody2D"]
+gravity_scale = 0.0
 script = ExtResource("1_cbxua")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 16)
-shape = SubResource("RectangleShape2D_78i1v")
+rotation = 1.57079
+shape = SubResource("CapsuleShape2D_fhkwb")
 
 [node name="TempRocket" type="Sprite2D" parent="."]
 position = Vector2(0, 16)

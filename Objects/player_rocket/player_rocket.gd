@@ -1,10 +1,11 @@
-extends CharacterBody2D
+extends RigidBody2D
 
 
 const SPEED = 300.0
 const STOP_SPEED = 300.0
 const ROTATION_SPEED = PI/64
 const JUMP_VELOCITY = -100.0
+const THRUST_VELOCITY = Vector2(0,-200)
 
 @onready var cutting_tool = $CuttingTool
 @onready var collision_polygon = $CuttingTool/CollisionPolygon
@@ -25,13 +26,12 @@ func _physics_process(_delta):
 
 	# Handle jump.
 	if Input.is_action_pressed("Accelerate"):
-		velocity.y = JUMP_VELOCITY
-		velocity.x = 0
-		velocity = velocity.rotated(rotation)
+		set_linear_velocity(THRUST_VELOCITY.rotated(rotation))
 		
 	if Input.is_action_pressed("Stop"):
-		velocity.x = move_toward(velocity.x, 0, STOP_SPEED)
-		velocity.y = move_toward(velocity.y, 0, STOP_SPEED)
+		linear_velocity.x = move_toward(linear_velocity.x, 0, STOP_SPEED)
+		linear_velocity.y = move_toward(linear_velocity.y, 0, STOP_SPEED)
+		angular_velocity = move_toward(angular_velocity, 0, STOP_SPEED)
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -40,8 +40,6 @@ func _physics_process(_delta):
 	if rot:
 		rotate(rot * ROTATION_SPEED)
 
-
-	move_and_slide()
 
 func asteroidCut():
 	for entity in cutting_tool.get_overlapping_bodies():
@@ -58,6 +56,7 @@ func asteroidCut():
 		var intersection = Geometry2D.clip_polygons(toCutPolygon, cutterPolygon)
 
 		#NOTICE: If preformace issues consider object pooling for asteroids
+		#NOTICE: I think my area formula is wrong???
 		for overlapping in intersection:
 			#region Localise Polygon and find its area
 			var leftSide = 0
