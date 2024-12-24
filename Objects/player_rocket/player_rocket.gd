@@ -5,8 +5,6 @@ const SPEED = 300.0
 const STOP_SPEED = 300.0
 const ROTATION_SPEED = PI/64
 const JUMP_VELOCITY = -100.0
-## Variable to control how small an asteroid can get
-const MIN_ASTEROID_SIZE = 1000
 
 @onready var cutting_tool = $CuttingTool
 @onready var collision_polygon = $CuttingTool/CollisionPolygon
@@ -79,14 +77,15 @@ func asteroidCut():
 			print("Area: ", area)
 			
 			#TODO: Play a shattering partile effect the emphasis destruction of asteroid
-			if (area < MIN_ASTEROID_SIZE):
+			if (area < Asteroid.MIN_ASTEROID_SIZE):
 				continue
 			
 			var splitAsteroid: Asteroid = asteroid.instantiate()
-			get_tree().get_root().add_child(splitAsteroid)
 			
+			get_tree().get_root().add_child(splitAsteroid)
 			#TODO: Consider calculating mass for each asteroid
 			#region Apply attributes to asteroid
+			splitAsteroid.set_area(area)
 			splitAsteroid.set_transform(entity.transform)
 			splitAsteroid.set_linear_velocity(entity.get_linear_velocity())
 			splitAsteroid.set_angular_velocity(entity.get_angular_velocity())
