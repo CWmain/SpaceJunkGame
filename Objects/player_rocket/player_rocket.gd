@@ -5,7 +5,7 @@ const SPEED = 300.0
 const STOP_SPEED = 300.0
 const ROTATION_SPEED = PI/64
 const JUMP_VELOCITY = -100.0
-const THRUST_VELOCITY = Vector2(0,-200)
+const THRUST_VELOCITY = Vector2(0,-10)
 
 @onready var cutting_tool = $CuttingTool
 @onready var collision_polygon = $CuttingTool/CollisionPolygon
@@ -26,7 +26,7 @@ func _physics_process(_delta):
 
 	# Handle jump.
 	if Input.is_action_pressed("Accelerate"):
-		set_linear_velocity(THRUST_VELOCITY.rotated(rotation))
+		linear_velocity += THRUST_VELOCITY.rotated(rotation)
 		
 	if Input.is_action_pressed("Stop"):
 		linear_velocity.x = move_toward(linear_velocity.x, 0, STOP_SPEED)
