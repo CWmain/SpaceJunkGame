@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://n468ffa12goh"]
+[gd_scene load_steps=5 format=3 uid="uid://n468ffa12goh"]
 
 [ext_resource type="Script" path="res://Objects/Test_Scene.gd" id="1_gvyoo"]
-[ext_resource type="Texture2D" uid="uid://vc30gqw53emc" path="res://Sprites/AsteroidTexture.png" id="2_dhefl"]
 [ext_resource type="PackedScene" uid="uid://dyn3wc664s0kq" path="res://Objects/player_rocket/player_rocket.tscn" id="4_5qqnx"]
 [ext_resource type="PackedScene" uid="uid://prsjoep6c2o0" path="res://Objects/asteroid/asteroid.tscn" id="4_tsibv"]
 
@@ -12,22 +11,6 @@ size = Vector2(109.7, 20)
 script = ExtResource("1_gvyoo")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Asteroid" type="RigidBody2D" parent="."]
-position = Vector2(-218, -30)
-collision_layer = 3
-collision_mask = 3
-gravity_scale = 0.01
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroid"]
-polygon = PackedVector2Array(-20, 24, -48, -15, -3, -36, 12, -24)
-
-[node name="Cutter" type="Polygon2D" parent="Asteroid"]
-texture_repeat = 2
-texture = ExtResource("2_dhefl")
-polygon = PackedVector2Array(-20, 24, -48, -15, -3, -36, 12, -24)
-uv = PackedVector2Array(-20, 24, -48, -15, -3, -36, 12, -24)
-polygons = [PackedInt32Array(0, 1, 2, 3, 4)]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(1, 91)
@@ -40,5 +23,5 @@ shape = SubResource("RectangleShape2D_0fm31")
 [node name="PlayerRocket" parent="." instance=ExtResource("4_5qqnx")]
 position = Vector2(-150, -107)
 
-[node name="Asteroid2" parent="." instance=ExtResource("4_tsibv")]
+[node name="Asteroid" parent="." instance=ExtResource("4_tsibv")]
 position = Vector2(-385, -145)

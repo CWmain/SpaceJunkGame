@@ -69,13 +69,15 @@ func asteroidCut():
 					leftSide += localOverLapping[i].x * localOverLapping[i-1].y
 					rightSide += localOverLapping[i-1].x * localOverLapping[i].y
 				
-			#endregion	
 			leftSide += localOverLapping[0].x * localOverLapping[localOverLapping.size()-1].y
 			rightSide += localOverLapping[localOverLapping.size()-1].x * localOverLapping[0].y
 			var area = abs(leftSide-rightSide)/2
+			#endregion	
 			print("Area: ", area)
 			
-			
+			#Finds the percent that the overlap is of the original
+			var percent = area / entity.area
+			print("Percent: ", percent)
 			
 			var splitAsteroid: Asteroid = asteroid.instantiate()
 			
@@ -83,12 +85,14 @@ func asteroidCut():
 			#TODO: Consider calculating mass for each asteroid
 			#region Apply attributes to asteroid
 			splitAsteroid.set_area(area)
+			splitAsteroid.set_mass(entity.get_mass()*percent)
+			print("Mass: ", splitAsteroid.get_mass())
 			splitAsteroid.set_transform(entity.transform)
 			splitAsteroid.set_linear_velocity(entity.get_linear_velocity())
 			splitAsteroid.set_angular_velocity(entity.get_angular_velocity())
 			splitAsteroid.set_polygons(localOverLapping)
 			#endregion
-			
+			print("\n NEW \n")
 		
 		entity.queue_free()
 

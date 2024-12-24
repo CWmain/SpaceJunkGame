@@ -14,7 +14,8 @@ var area = 1001;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	set_area(calculate_area())
+	
 
 
 
@@ -40,4 +41,16 @@ func remove_asteroid():
 	print("Removing Asteroid")
 	queue_free()
 
-	
+func calculate_area():
+	var leftSide = 0
+	var rightSide = 0
+	var poly = visual.get_polygon()
+	for i in range(poly.size()):				
+		if (i > 0):
+			leftSide += poly[i].x * poly[i-1].y
+			rightSide += poly[i-1].x * poly[i].y
+		
+	leftSide += poly[0].x * poly[poly.size()-1].y
+	rightSide += poly[poly.size()-1].x * poly[0].y
+	var sol = abs(leftSide-rightSide)/2
+	return sol
