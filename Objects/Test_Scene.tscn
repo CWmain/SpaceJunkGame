@@ -25,3 +25,6 @@ position = Vector2(-150, -107)
 
 [node name="Asteroid" parent="." instance=ExtResource("4_tsibv")]
 position = Vector2(-385, -145)
+
+[node name="Asteroid2" parent="." instance=ExtResource("4_tsibv")]
+position = Vector2(140, -67)
