@@ -7,7 +7,7 @@ const MIN_ASTEROID_SIZE = 1000
 @onready var hit_box : CollisionPolygon2D = $HitBox
 @onready var visual : Polygon2D = $Visual
 
-var area;
+var area = 1001;
 
 #TODO: When created they should move away from the cutting tool, not sure where to place logic
 
@@ -20,7 +20,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if area < MIN_ASTEROID_SIZE:
+		remove_asteroid()
+	
 
 func set_area(i):
 	area = i
@@ -31,4 +33,11 @@ func set_polygons(p: PackedVector2Array):
 		return
 	hit_box.set_polygon(p)
 	visual.set_polygon(p)
+	
+#TODO: Set up particle effect on deletion
+## Plays effect and remove asteroid
+func remove_asteroid():
+	print("Removing Asteroid")
+	queue_free()
+
 	

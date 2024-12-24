@@ -76,9 +76,7 @@ func asteroidCut():
 			var area = abs(leftSide-rightSide)/2
 			print("Area: ", area)
 			
-			#TODO: Play a shattering partile effect the emphasis destruction of asteroid
-			if (area < Asteroid.MIN_ASTEROID_SIZE):
-				continue
+			
 			
 			var splitAsteroid: Asteroid = asteroid.instantiate()
 			
