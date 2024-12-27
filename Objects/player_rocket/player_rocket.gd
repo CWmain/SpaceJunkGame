@@ -9,9 +9,11 @@ const THRUST_VELOCITY = Vector2(0,-10)
 
 @onready var cutting_tool = $CuttingTool
 @onready var collision_polygon = $CuttingTool/CollisionPolygon
+@onready var tether = $Tether
+@onready var player_rocket = $"."
 
 var asteroid = preload("res://Objects/asteroid/asteroid.tscn")
-
+var tetherSet = false
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -39,6 +41,13 @@ func _physics_process(_delta):
 	var rot = Input.get_axis("TurnLeft", "TurnRight")
 	if rot:
 		rotate(rot * ROTATION_SPEED)
+		
+	if (tether.is_colliding() and !tetherSet):
+		tetherSet = true
+		#on_tether()
+		
+		
+		
 
 
 func asteroidCut():
@@ -96,3 +105,13 @@ func asteroidCut():
 		
 		entity.queue_free()
 
+func on_tether():
+	print("Tethered")
+	var joint: DampedSpringJoint2D = DampedSpringJoint2D.new()
+	joint.node_a = get_path()
+	joint.node_b = tether.get_collider().get_path()
+	get_tree().get_root().add_child(joint)
+	joint.set_length(10)
+	joint.set_rest_length(5)
+	joint.set_stiffness(200)
+	joint.set_damping(1)

@@ -25,6 +25,12 @@ position = Vector2(-150, -107)
 
 [node name="Asteroid" parent="." instance=ExtResource("4_tsibv")]
 position = Vector2(-385, -145)
+mass = 100.0
 
 [node name="Asteroid2" parent="." instance=ExtResource("4_tsibv")]
 position = Vector2(140, -67)
+
+[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="."]
+node_a = NodePath("../PlayerRocket")
+node_b = NodePath("../Asteroid")
+disable_collision = false
