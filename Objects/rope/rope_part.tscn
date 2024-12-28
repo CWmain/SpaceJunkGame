@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dd8a7pjqqg3cr"]
+
+[ext_resource type="Texture2D" uid="uid://c7jcfmbinw02m" path="res://icon.svg" id="1_60jyo"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gjysk"]
+radius = 16.0
+height = 130.0
+
+[node name="RopePart" type="RigidBody2D"]
+gravity_scale = 0.0
+
+[node name="Icon" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 1)
+texture = ExtResource("1_60jyo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_gjysk")
