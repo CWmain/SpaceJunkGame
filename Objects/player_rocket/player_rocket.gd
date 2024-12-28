@@ -111,11 +111,16 @@ func on_tether():
 	# Ensure that a valid asteroid is detected
 	if (collidedAsteroid == null):
 		return
+		
 	# Get a vector to move from current position towards ship
 	var asteroidPosition : Vector2 = collidedAsteroid.to_global(collidedAsteroid.position)
 	var shipPosition: Vector2 = to_global(position)
+	
+	# TODO: Adjust how shift is calculated to get the asteroid moving towards the ship correctly
+	# Consider shooting a physics object which stores the asteroid you want to pull, it breaks beyond a certain distance
 	var shift : Vector2 = shipPosition - asteroidPosition
-	shift = shift / 5
-	collidedAsteroid.set_linear_velocity(shift)
+	shift = shift
+	collidedAsteroid.apply_force(shift, Vector2.ZERO)
+	#collidedAsteroid.set_linear_velocity(shift)
 	#tether.get_collider().set_linear_velocity(Vector2(0,0))
 
