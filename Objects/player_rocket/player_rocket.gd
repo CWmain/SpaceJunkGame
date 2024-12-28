@@ -42,9 +42,9 @@ func _physics_process(_delta):
 	if rot:
 		rotate(rot * ROTATION_SPEED)
 		
-	if (tether.is_colliding() and !tetherSet):
+	if (tether.is_colliding()):
 		tetherSet = true
-		#on_tether()
+		on_tether()
 		
 		
 		
@@ -107,11 +107,12 @@ func asteroidCut():
 
 func on_tether():
 	print("Tethered")
-	var joint: DampedSpringJoint2D = DampedSpringJoint2D.new()
-	joint.node_a = get_path()
-	joint.node_b = tether.get_collider().get_path()
-	get_tree().get_root().add_child(joint)
-	joint.set_length(10)
-	joint.set_rest_length(5)
-	joint.set_stiffness(200)
-	joint.set_damping(1)
+	var collidedAsteroid : Asteroid = tether.get_collider()
+	# Get a vector to move from current position towards ship
+	var asteroidPosition : Vector2 = collidedAsteroid.to_global(collidedAsteroid.position)
+	var shipPosition: Vector2 = self.to_global(self.position)
+	var shift : Vector2 = shipPosition - asteroidPosition
+	shift = collidedAsteroid.to_local(shift) / 5
+	collidedAsteroid.set_linear_velocity(shift)
+	#tether.get_collider().set_linear_velocity(Vector2(0,0))
+
