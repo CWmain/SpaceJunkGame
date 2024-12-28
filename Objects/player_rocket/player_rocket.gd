@@ -10,9 +10,10 @@ const TETHER_FORCE = 100
 
 @onready var cutting_tool = $CuttingTool
 @onready var collision_polygon = $CuttingTool/CollisionPolygon
-@onready var tether = $Tether
+
 @onready var player_rocket = $"."
 @onready var tether_hook = $TetherHook
+@onready var tether_spring = $TetherSpring
 
 var asteroid = preload("res://Objects/asteroid/asteroid.tscn")
 var tetherSet = false
@@ -109,21 +110,16 @@ func asteroidCut():
 
 func on_tether():
 	print("Tethered")
-	var collidedAsteroid : Asteroid = tether.get_collider()
-	# Ensure that a valid asteroid is detected
-	if (collidedAsteroid == null):
+	
+
+
+func _on_tether_hook_body_entered(body):
+	if (body == null):
 		return
-		
-	# Get a vector to move from current position towards ship
-	var asteroidPosition : Vector2 = collidedAsteroid.position
-	var shipPosition: Vector2 = position
-	print("AP: ", asteroidPosition, "SP: ", shipPosition)
-
-	# TODO: Adjust how shift is calculated to get the asteroid moving towards the ship correctly
-	# Consider shooting a physics object which stores the asteroid you want to pull, it breaks beyond a certain distance
-	var shift : Vector2 = (shipPosition-asteroidPosition) * TETHER_FORCE
-
-	collidedAsteroid.apply_force(shift, Vector2.ZERO)
-	#collidedAsteroid.set_linear_velocity(shift)
-	#tether.get_collider().set_linear_velocity(Vector2(0,0))
-
+	var tether_length = tether_hook.position.distance_to(player_rocket.position)
+	var tether_angle = tether_hook.position.angle_to(player_rocket.position)
+	#tether_spring.set_length(tether_length)
+	#tether_spring.set_rotation(tether_angle)
+	tether_spring.node_a = get_path_to(self)
+	tether_spring.node_b = get_path_to(body)
+	pass # Replace with function body.
