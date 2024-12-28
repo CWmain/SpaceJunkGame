@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyn3wc664s0kq"]
+[gd_scene load_steps=5 format=3 uid="uid://dyn3wc664s0kq"]
 
 [ext_resource type="Script" path="res://Objects/player_rocket/player_rocket.gd" id="1_cbxua"]
 [ext_resource type="Texture2D" uid="uid://crjg8kcry5dxr" path="res://Objects/player_rocket/TempRocket.png" id="1_jlamr"]
+[ext_resource type="PackedScene" uid="uid://booojh8xhn0yk" path="res://Objects/tether/tether.tscn" id="3_o8ciw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fhkwb"]
 radius = 16.0
@@ -33,6 +34,5 @@ polygon = PackedVector2Array(32, -100, 0, -100, 0, 0, 32, 0)
 [node name="CollisionPolygon" type="CollisionPolygon2D" parent="CuttingTool"]
 polygon = PackedVector2Array(32, -100, 0, -100, 0, 0, 32, 0)
 
-[node name="Tether" type="RayCast2D" parent="."]
-target_position = Vector2(0, -100)
-collision_mask = 4
+[node name="TetherHook" parent="." node_paths=PackedStringArray("player_rocket") instance=ExtResource("3_o8ciw")]
+player_rocket = NodePath("..")

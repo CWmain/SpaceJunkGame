@@ -6,11 +6,13 @@ const STOP_SPEED = 300.0
 const ROTATION_SPEED = PI/64
 const JUMP_VELOCITY = -100.0
 const THRUST_VELOCITY = Vector2(0,-10)
+const TETHER_FORCE = 100
 
 @onready var cutting_tool = $CuttingTool
 @onready var collision_polygon = $CuttingTool/CollisionPolygon
 @onready var tether = $Tether
 @onready var player_rocket = $"."
+@onready var tether_hook = $TetherHook
 
 var asteroid = preload("res://Objects/asteroid/asteroid.tscn")
 var tetherSet = false
@@ -19,6 +21,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _process(_delta):
 	if Input.is_action_just_pressed("Cut"):
+		tether_hook.reset_tether()
 		asteroidCut()
 
 func _physics_process(_delta):
@@ -42,11 +45,8 @@ func _physics_process(_delta):
 	if rot:
 		rotate(rot * ROTATION_SPEED)
 		
-	if (tether.is_colliding()):
-		tetherSet = true
-		on_tether()
-		
-		
+	if Input.is_action_just_pressed("Tether"):
+		tether_hook.fire_tether()
 		
 
 
@@ -91,7 +91,7 @@ func asteroidCut():
 			var splitAsteroid: Asteroid = asteroid.instantiate()
 			
 			get_tree().get_root().add_child(splitAsteroid)
-			#TODO: Consider calculating mass for each asteroid
+
 			#region Apply attributes to asteroid
 			splitAsteroid.set_area(area)
 			splitAsteroid.set_mass(entity.get_mass()*percent)
@@ -113,13 +113,14 @@ func on_tether():
 		return
 		
 	# Get a vector to move from current position towards ship
-	var asteroidPosition : Vector2 = collidedAsteroid.to_global(collidedAsteroid.position)
-	var shipPosition: Vector2 = to_global(position)
-	
+	var asteroidPosition : Vector2 = collidedAsteroid.position
+	var shipPosition: Vector2 = position
+	print("AP: ", asteroidPosition, "SP: ", shipPosition)
+
 	# TODO: Adjust how shift is calculated to get the asteroid moving towards the ship correctly
 	# Consider shooting a physics object which stores the asteroid you want to pull, it breaks beyond a certain distance
-	var shift : Vector2 = shipPosition - asteroidPosition
-	shift = shift
+	var shift : Vector2 = (shipPosition-asteroidPosition) * TETHER_FORCE
+
 	collidedAsteroid.apply_force(shift, Vector2.ZERO)
 	#collidedAsteroid.set_linear_velocity(shift)
 	#tether.get_collider().set_linear_velocity(Vector2(0,0))
