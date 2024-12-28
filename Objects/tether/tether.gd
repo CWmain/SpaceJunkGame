@@ -34,7 +34,7 @@ func fire_tether():
 	tether_hook.set_collision_mask(4)
 
 func reset_tether():
-	get_parent().set_lock_rotation_enabled(true)
+	#get_parent().set_lock_rotation_enabled(true)
 	tether_hook.set_collision_layer(0)
 	tether_hook.set_collision_mask(0)
 	reparent(player_rocket)
@@ -48,7 +48,7 @@ func _on_body_entered(body):
 	active = false
 	tether_hook.set_collision_layer(0)
 	tether_hook.set_collision_mask(0)
-	body.set_lock_rotation_enabled(false)
+	#body.set_lock_rotation_enabled(false)
 	print(body.is_lock_rotation_enabled())
 	
 	# Reparent to the asteroid

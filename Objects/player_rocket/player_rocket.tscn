@@ -40,5 +40,6 @@ player_rocket = NodePath("..")
 [node name="TetherSpring" type="DampedSpringJoint2D" parent="."]
 rotation = 3.14159
 node_a = NodePath("..")
+disable_collision = false
 
 [connection signal="body_entered" from="TetherHook" to="." method="_on_tether_hook_body_entered"]

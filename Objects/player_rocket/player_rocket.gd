@@ -119,7 +119,7 @@ func _on_tether_hook_body_entered(body):
 	var foundAsteroid : Asteroid = body
 	var tether_length = tether_hook.position.distance_to(player_rocket.position)
 	var tether_angle = tether_hook.position.angle_to(player_rocket.position)
-	tether_spring.set_length(tether_length)
+	#tether_spring.set_length(tether_length)
 	#tether_spring.set_rotation(tether_angle)
 
 	tether_spring.node_b = foundAsteroid.get_path()
