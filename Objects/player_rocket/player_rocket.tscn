@@ -38,7 +38,7 @@ polygon = PackedVector2Array(32, -100, 0, -100, 0, 0, 32, 0)
 player_rocket = NodePath("..")
 
 [node name="TetherSpring" type="DampedSpringJoint2D" parent="."]
-disable_collision = false
-stiffness = 64.0
+rotation = 3.14159
+node_a = NodePath("..")
 
 [connection signal="body_entered" from="TetherHook" to="." method="_on_tether_hook_body_entered"]

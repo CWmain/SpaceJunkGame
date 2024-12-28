@@ -11,7 +11,7 @@ func _physics_process(_delta):
 	if (active):
 		position += Vector2(0,-1)*SPEED
 	
-	if (pull):
+	if (pull and false == true):
 		var collidedAsteroid = get_parent()
 		# Get a vector to move from current position towards ship
 		var asteroidPosition : Vector2 = collidedAsteroid.position
