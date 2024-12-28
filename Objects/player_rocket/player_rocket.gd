@@ -108,11 +108,14 @@ func asteroidCut():
 func on_tether():
 	print("Tethered")
 	var collidedAsteroid : Asteroid = tether.get_collider()
+	# Ensure that a valid asteroid is detected
+	if (collidedAsteroid == null):
+		return
 	# Get a vector to move from current position towards ship
 	var asteroidPosition : Vector2 = collidedAsteroid.to_global(collidedAsteroid.position)
-	var shipPosition: Vector2 = self.to_global(self.position)
+	var shipPosition: Vector2 = to_global(position)
 	var shift : Vector2 = shipPosition - asteroidPosition
-	shift = collidedAsteroid.to_local(shift) / 5
+	shift = shift / 5
 	collidedAsteroid.set_linear_velocity(shift)
 	#tether.get_collider().set_linear_velocity(Vector2(0,0))
 
