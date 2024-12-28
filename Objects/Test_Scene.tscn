@@ -24,6 +24,13 @@ shape = SubResource("RectangleShape2D_0fm31")
 position = Vector2(-109, -95)
 lock_rotation = true
 
+[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="PlayerRocket"]
+position = Vector2(1, 24)
+node_a = NodePath("..")
+node_b = NodePath("../../Asteroid")
+disable_collision = false
+stiffness = 64.0
+
 [node name="Asteroid" parent="." instance=ExtResource("4_tsibv")]
 position = Vector2(-114, 16)
 rotation = 2.98446
@@ -31,10 +38,3 @@ mass = 100.0
 
 [node name="Asteroid2" parent="." instance=ExtResource("4_tsibv")]
 position = Vector2(140, -67)
-
-[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="."]
-position = Vector2(-108, -71)
-node_a = NodePath("../PlayerRocket")
-node_b = NodePath("../Asteroid")
-disable_collision = false
-stiffness = 64.0

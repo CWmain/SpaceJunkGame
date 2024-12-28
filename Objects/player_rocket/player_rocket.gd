@@ -5,7 +5,7 @@ const SPEED = 300.0
 const STOP_SPEED = 300.0
 const ROTATION_SPEED = PI/64
 const JUMP_VELOCITY = -100.0
-const THRUST_VELOCITY = Vector2(0,-10)
+const THRUST_VELOCITY = Vector2(0,-300)
 const TETHER_FORCE = 100
 
 @onready var cutting_tool = $CuttingTool
@@ -31,7 +31,9 @@ func _physics_process(_delta):
 
 	# Handle jump.
 	if Input.is_action_pressed("Accelerate"):
-		linear_velocity += THRUST_VELOCITY.rotated(rotation)
+		#linear_velocity += THRUST_VELOCITY.rotated(rotation)
+		apply_force(THRUST_VELOCITY.rotated(rotation), Vector2.ZERO)
+
 		
 	if Input.is_action_pressed("Stop"):
 		linear_velocity.x = move_toward(linear_velocity.x, 0, STOP_SPEED)
