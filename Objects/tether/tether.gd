@@ -15,9 +15,11 @@ var pull: bool = false
 @onready var tether_line = $TetherLine
 
 func _physics_process(_delta):
-	print(player_rocket.position.distance_to(position))
+
 	# Resets tether if it goes beyond the set distance from player rocket
-	if (player_rocket.position.distance_to(position) > TETHER_DISTANCE):
+	# Checks for (active or pull) due to the distance_to function having stange behaviour 
+	# when the tether hook is reset on the player_rocket
+	if (player_rocket.position.distance_to(position) > TETHER_DISTANCE and (active or pull)):
 		reset_tether()
 		
 	# Set raycast so it is always pointing to player ship
@@ -27,6 +29,7 @@ func _physics_process(_delta):
 	if (active or pull):
 		var pointsToShip = PackedVector2Array([Vector2(0,0),to_local(player_rocket.position)])
 		tether_line.set_points(pointsToShip)
+	# When reset on the player ship, have empty points
 	else:
 		tether_line.set_points(PackedVector2Array())
 	
@@ -51,6 +54,7 @@ func fire_tether():
 	los.set_enabled(true)
 
 func reset_tether():
+	print("Reseting Tether")
 	tether_line.hide()
 	tether_hook.set_collision_layer(0)
 	tether_hook.set_collision_mask(0)
