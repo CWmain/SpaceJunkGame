@@ -2,6 +2,8 @@ extends Node2D
 
 var SPEED = 5
 var TETHER_FORCE = 10
+var TETHER_DISTANCE = 600
+
 var active: bool = false
 var pull: bool = false
 
@@ -13,12 +15,20 @@ var pull: bool = false
 @onready var tether_line = $TetherLine
 
 func _physics_process(_delta):
+	print(player_rocket.position.distance_to(position))
+	# Resets tether if it goes beyond the set distance from player rocket
+	if (player_rocket.position.distance_to(position) > TETHER_DISTANCE):
+		reset_tether()
+		
 	# Set raycast so it is always pointing to player ship
 	los.set_target_position(to_local(player_rocket.position))
 	
 	# Set tether graphic to always attach to player ship
-	var pointsToShip = PackedVector2Array([Vector2(0,0),to_local(player_rocket.position)])
-	tether_line.set_points(pointsToShip)
+	if (active or pull):
+		var pointsToShip = PackedVector2Array([Vector2(0,0),to_local(player_rocket.position)])
+		tether_line.set_points(pointsToShip)
+	else:
+		tether_line.set_points(PackedVector2Array())
 	
 	# State where tether hook is shot and is travelling
 	if (active):
@@ -32,7 +42,7 @@ func fire_tether():
 	# Do nothing if already pulling as that means it was already been fired
 	if (pull):
 		return
-
+	tether_line.show()
 	reparent(get_tree().root)
 	active = true
 	
@@ -41,9 +51,11 @@ func fire_tether():
 	los.set_enabled(true)
 
 func reset_tether():
+	tether_line.hide()
 	tether_hook.set_collision_layer(0)
 	tether_hook.set_collision_mask(0)
 	los.set_enabled(false)
+	
 	reparent(player_rocket)
 	rotation = 0
 	position = Vector2.ZERO
