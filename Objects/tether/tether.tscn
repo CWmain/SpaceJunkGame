@@ -14,6 +14,10 @@ script = ExtResource("1_fhoa8")
 scale = Vector2(0.1875, 0.1875)
 texture = ExtResource("2_qwd0o")
 
+[node name="LOS" type="RayCast2D" parent="."]
+enabled = false
+collision_mask = 4
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_o7f8s")
 

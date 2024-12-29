@@ -9,24 +9,19 @@ var pull: bool = false
 @export var tether: DampedSpringJoint2D
 
 @onready var tether_hook = $"."
+@onready var los = $LOS
 
 func _physics_process(_delta):
 	if (active):
 		print(rotation)
 		position += Vector2(0,-1).rotated(rotation) * SPEED
 	
-	if (pull and false == true):
-		var collidedAsteroid = get_parent()
-		# Get a vector to move from current position towards ship
-		var asteroidPosition : Vector2 = collidedAsteroid.position
-		var shipPosition: Vector2 = player_rocket.position
-
-		# TODO: Adjust how shift is calculated to get the asteroid moving towards the ship correctly
-		# Consider shooting a physics object which stores the asteroid you want to pull, it breaks beyond a certain distance
-		var shift : Vector2 = (shipPosition-asteroidPosition) * TETHER_FORCE
-
-		collidedAsteroid.apply_force(shift, position)
-	
+	if (pull):
+		#Apply line of sight raycast to player rocket
+		los.set_target_position(to_local(player_rocket.position))
+		#los.rotation = to_global(los.position).angle_to(player_rocket.position)-rotation
+	if (los.is_colliding()):
+		reset_tether()
 
 func fire_tether():
 	# Do nothing if already pulling as that means it was already been fired
@@ -37,11 +32,13 @@ func fire_tether():
 	active = true
 	
 	tether_hook.set_collision_layer(4)
+	los.set_enabled(true)
 	tether_hook.set_collision_mask(4)
 
 func reset_tether():
 	#get_parent().set_lock_rotation_enabled(true)
 	tether_hook.set_collision_layer(0)
+	los.set_enabled(false)
 	tether_hook.set_collision_mask(0)
 	reparent(player_rocket)
 	rotation = 0
@@ -65,5 +62,8 @@ func _on_body_entered(body):
 	
 	# Attach Tether to Asteroid
 	tether.node_b = body.get_path()
+	
+	#Apply line of sight raycast to asteroid
+	los.set_target_position(player_rocket.position)
 	
 	print("Do Tether Stuff")
