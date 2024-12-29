@@ -10,10 +10,15 @@ var pull: bool = false
 
 @onready var tether_hook = $"."
 @onready var los = $LOS
+@onready var tether_line = $TetherLine
 
 func _physics_process(_delta):
 	# Set raycast so it is always pointing to player ship
 	los.set_target_position(to_local(player_rocket.position))
+	
+	# Set tether graphic to always attach to player ship
+	var pointsToShip = PackedVector2Array([Vector2(0,0),to_local(player_rocket.position)])
+	tether_line.set_points(pointsToShip)
 	
 	# State where tether hook is shot and is travelling
 	if (active):
