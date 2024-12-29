@@ -12,14 +12,14 @@ var pull: bool = false
 @onready var los = $LOS
 
 func _physics_process(_delta):
+	# Set raycast so it is always pointing to player ship
+	los.set_target_position(to_local(player_rocket.position))
+	
+	# State where tether hook is shot and is travelling
 	if (active):
-		print(rotation)
 		position += Vector2(0,-1).rotated(rotation) * SPEED
 	
-	if (pull):
-		#Apply line of sight raycast to player rocket
-		los.set_target_position(to_local(player_rocket.position))
-		#los.rotation = to_global(los.position).angle_to(player_rocket.position)-rotation
+	# If LOS is broken, than reset tether
 	if (los.is_colliding()):
 		reset_tether()
 
@@ -32,14 +32,13 @@ func fire_tether():
 	active = true
 	
 	tether_hook.set_collision_layer(4)
-	los.set_enabled(true)
 	tether_hook.set_collision_mask(4)
+	los.set_enabled(true)
 
 func reset_tether():
-	#get_parent().set_lock_rotation_enabled(true)
 	tether_hook.set_collision_layer(0)
-	los.set_enabled(false)
 	tether_hook.set_collision_mask(0)
+	los.set_enabled(false)
 	reparent(player_rocket)
 	rotation = 0
 	position = Vector2.ZERO
@@ -50,12 +49,11 @@ func reset_tether():
 func _on_body_entered(body):
 	if (body == null):
 		return
+	
 	active = false
 	tether_hook.set_collision_layer(0)
 	tether_hook.set_collision_mask(0)
-	#body.set_lock_rotation_enabled(false)
-	print(body.is_lock_rotation_enabled())
-	
+
 	# Reparent to the asteroid
 	reparent(body)
 	pull = true
@@ -65,5 +63,3 @@ func _on_body_entered(body):
 	
 	#Apply line of sight raycast to asteroid
 	los.set_target_position(player_rocket.position)
-	
-	print("Do Tether Stuff")
