@@ -15,29 +15,16 @@ func _on_collection_hit_box_body_entered(body):
 	await RenderingServer.frame_post_draw
 	print("Attempting to make image")
 	var myImage : Image = get_viewport().get_texture().get_image().get_region(screenshotRegion)
-	var dict : Dictionary = {}
-	
-	for i in range(0,300):
-		for j in range(0,300):
-			if dict.has(myImage.get_pixel(i,j)):
-				dict[myImage.get_pixel(i,j)] += 1
-			else:
-				dict[myImage.get_pixel(i,j)] = 1
-	for key in dict.keys():
-		if dict[key] > 200:
-			print(key, ": ", dict[key])
-			
+
 	var asteroidMakeUp: Dictionary = {"r":0,"g":0,"b":0}
 	for i in range(0,300):
 		for j in range(0,300):
 			var testColor : Color = myImage.get_pixel(i,j)
-			#print(red.r, " == ", testColor.r)
-			#print(testColor == red)
-			if (red.r8 == testColor.r8):
+			if (cmpColors(red,testColor)):
 				asteroidMakeUp["r"] += 1
-			if (testColor.is_equal_approx(green)):
+			if (cmpColors(green,testColor)):
 				asteroidMakeUp["g"] += 1
-			if (testColor.is_equal_approx(blue)):
+			if (cmpColors(blue,testColor)):
 				asteroidMakeUp["b"] += 1
 
 	for key in asteroidMakeUp.keys():
