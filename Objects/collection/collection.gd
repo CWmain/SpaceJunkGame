@@ -15,10 +15,7 @@ var blue : Color = Color(0, 0.5804, 1, 1)
 
 func _on_collection_hit_box_body_entered(body):
 	var toCopy: Polygon2D = body.visual
-	var vis : Polygon2D = Polygon2D.new()
-	vis.texture = toCopy.texture
-	vis.texture_offset = toCopy.texture_offset
-	vis.polygon = toCopy.polygon
+	var vis : Polygon2D = body.visual.duplicate()
 	
 	sub_viewport.add_child(vis)
 	vis.position = Vector2(150,150)
@@ -27,7 +24,7 @@ func _on_collection_hit_box_body_entered(body):
 	print("Attempting to make image")
 	var myImage : Image = sub_viewport.get_texture().get_image()
 	
-	#printAllPixels(myImage)
+	printAllPixels(myImage)
 
 	var asteroidMakeUp: Dictionary = {"r":0,"g":0,"b":0}
 	for i in range(0,300):
