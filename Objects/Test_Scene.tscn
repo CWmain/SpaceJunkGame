@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://n468ffa12goh"]
+[gd_scene load_steps=6 format=3 uid="uid://n468ffa12goh"]
 
 [ext_resource type="Script" path="res://Objects/Test_Scene.gd" id="1_gvyoo"]
 [ext_resource type="PackedScene" uid="uid://dyn3wc664s0kq" path="res://Objects/player_rocket/player_rocket.tscn" id="4_5qqnx"]
+[ext_resource type="PackedScene" uid="uid://dxy7guq2edoc7" path="res://Objects/collection/collection.tscn" id="4_f4wre"]
 [ext_resource type="PackedScene" uid="uid://prsjoep6c2o0" path="res://Objects/asteroid/asteroid.tscn" id="4_tsibv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0fm31"]
@@ -11,6 +12,9 @@ size = Vector2(109.7, 20)
 script = ExtResource("1_gvyoo")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Collection" parent="." instance=ExtResource("4_f4wre")]
+position = Vector2(-291, -8)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(1, 91)

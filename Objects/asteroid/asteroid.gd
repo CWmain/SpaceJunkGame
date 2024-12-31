@@ -21,6 +21,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	color_test()
 	if area < MIN_ASTEROID_SIZE:
 		remove_asteroid()
 	
@@ -54,3 +55,7 @@ func calculate_area():
 	rightSide += poly[poly.size()-1].x * poly[0].y
 	var sol = abs(leftSide-rightSide)/2
 	return sol
+
+func color_test():
+	
+	pass
