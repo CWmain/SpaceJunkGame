@@ -24,7 +24,7 @@ func _on_collection_hit_box_body_entered(body):
 	print("Attempting to make image")
 	var myImage : Image = sub_viewport.get_texture().get_image()
 	
-	printAllPixels(myImage)
+	#printAllPixels(myImage)
 
 	var asteroidMakeUp: Dictionary = {"r":0,"g":0,"b":0}
 	for i in range(0,300):
