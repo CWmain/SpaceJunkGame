@@ -20,11 +20,10 @@ func _on_collection_hit_box_body_entered(body):
 func collectAsteroid() -> void:
 	var toCollect : Array[Node2D] = collection_hit_box.get_overlapping_bodies()
 	for ast in toCollect:
-		var toCopy: Polygon2D = ast.visual
-		var vis : Polygon2D = ast.visual.duplicate()
+		var visualPoly: Polygon2D = ast.visual
 		
-		sub_viewport.add_child(vis)
-		vis.position = Vector2(150,150)
+		visualPoly.reparent(sub_viewport)
+		visualPoly.position = Vector2(150,150)
 		
 		await RenderingServer.frame_post_draw
 		print("Attempting to make image")
@@ -47,7 +46,8 @@ func collectAsteroid() -> void:
 			print(key, ": ", asteroidMakeUp[key])
 
 		var screenshot = ImageTexture.create_from_image(myImage)
-		vis.queue_free()
+		visualPoly.reparent(ast)
+		visualPoly.position = Vector2(0,0)
 		text_screen_shot.texture = screenshot
 	
 	
