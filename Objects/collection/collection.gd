@@ -4,7 +4,8 @@ extends Node2D
 #TODO: Understand why the region has an odd offset
 var screenshotRegion = Rect2(135,165,300,300)
 
-@onready var sub_viewport = $SubViewportContainer/SubViewport
+@onready var collection_hit_box = $CollectionHitBox
+@onready var sub_viewport = $SubViewport
 
 #TODO: Update colour definitions when a new texture is made
 #region Asteroid Colors
@@ -14,35 +15,41 @@ var blue : Color = Color(0, 0.5804, 1, 1)
 #endregion
 
 func _on_collection_hit_box_body_entered(body):
-	var toCopy: Polygon2D = body.visual
-	var vis : Polygon2D = body.visual.duplicate()
-	
-	sub_viewport.add_child(vis)
-	vis.position = Vector2(150,150)
-	
-	await RenderingServer.frame_post_draw
-	print("Attempting to make image")
-	var myImage : Image = sub_viewport.get_texture().get_image()
-	
-	#printAllPixels(myImage)
+	collectAsteroid()
 
-	var asteroidMakeUp: Dictionary = {"r":0,"g":0,"b":0}
-	for i in range(0,300):
-		for j in range(0,300):
-			var testColor : Color = myImage.get_pixel(i,j)
-			if (cmpColors(red,testColor)):
-				asteroidMakeUp["r"] += 1
-			if (cmpColors(green,testColor)):
-				asteroidMakeUp["g"] += 1
-			if (cmpColors(blue,testColor)):
-				asteroidMakeUp["b"] += 1
+func collectAsteroid() -> void:
+	var toCollect : Array[Node2D] = collection_hit_box.get_overlapping_bodies()
+	for ast in toCollect:
+		var toCopy: Polygon2D = ast.visual
+		var vis : Polygon2D = ast.visual.duplicate()
+		
+		sub_viewport.add_child(vis)
+		vis.position = Vector2(150,150)
+		
+		await RenderingServer.frame_post_draw
+		print("Attempting to make image")
+		var myImage : Image = sub_viewport.get_texture().get_image()
+		
+		#printAllPixels(myImage)
 
-	for key in asteroidMakeUp.keys():
-		print(key, ": ", asteroidMakeUp[key])
+		var asteroidMakeUp: Dictionary = {"r":0,"g":0,"b":0}
+		for i in range(0,300):
+			for j in range(0,300):
+				var testColor : Color = myImage.get_pixel(i,j)
+				if (cmpColors(red,testColor)):
+					asteroidMakeUp["r"] += 1
+				if (cmpColors(green,testColor)):
+					asteroidMakeUp["g"] += 1
+				if (cmpColors(blue,testColor)):
+					asteroidMakeUp["b"] += 1
 
-	var screenshot = ImageTexture.create_from_image(myImage)
-	vis.queue_free()
-	text_screen_shot.texture = screenshot
+		for key in asteroidMakeUp.keys():
+			print(key, ": ", asteroidMakeUp[key])
+
+		var screenshot = ImageTexture.create_from_image(myImage)
+		vis.queue_free()
+		text_screen_shot.texture = screenshot
+	
 	
 func printAllPixels(myImage: Image):
 	var dict = {}
