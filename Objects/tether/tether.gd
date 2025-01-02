@@ -7,6 +7,10 @@ var TETHER_DISTANCE = 600
 var active: bool = false
 var pull: bool = false
 
+@export var MIN_TETHER_DISTANCE = 10
+@export var MAX_TETHER_DISTANCE = 600
+@export var PULL_FORCE: float = 1000
+
 @export var player_rocket: RigidBody2D
 @export var tether: DampedSpringJoint2D
 
@@ -19,7 +23,7 @@ func _physics_process(_delta):
 	# Resets tether if it goes beyond the set distance from player rocket
 	# Checks for (active or pull) due to the distance_to function having stange behaviour 
 	# when the tether hook is reset on the player_rocket
-	if (player_rocket.position.distance_to(position) > TETHER_DISTANCE and (active or pull)):
+	if (player_rocket.position.distance_to(position) > MAX_TETHER_DISTANCE and (active or pull)):
 		reset_tether()
 		
 	# Set raycast so it is always pointing to player ship
@@ -36,6 +40,27 @@ func _physics_process(_delta):
 	# State where tether hook is shot and is travelling
 	if (active):
 		position += Vector2(0,-1).rotated(rotation) * SPEED
+	
+	if (pull):
+		var tetherBaseVector : Vector2 = to_local(player_rocket.position).normalized()
+		var tetherLength: float = to_local(player_rocket.position).length()
+		var tetherAngle: float = player_rocket.position.angle()
+		# Calculate the percentage force to apply
+		var percentageToApply: float = (tetherLength-MIN_TETHER_DISTANCE)/MAX_TETHER_DISTANCE
+		var forceAmount: float = percentageToApply * PULL_FORCE
+		#Contruct vector2 to apply force in the right direction
+		var forceVector: Vector2 = tetherBaseVector*forceAmount
+		# Apply force to asteroid
+		var ast : Asteroid = get_parent()
+		ast.apply_force(forceVector, position)
+		
+		#Apply force to player rocket
+		player_rocket.apply_force(forceVector*-1, player_rocket.position)
+		
+		print("Length: ", tetherLength, "Percent: ", percentageToApply, "Force: ", forceAmount)
+
+		#print("BaseVector: ", forceVector)
+		#print("Force Amount: ", forceAmount)
 	
 	# If LOS is broken, than reset tether
 	if (los.is_colliding()):
@@ -65,7 +90,7 @@ func reset_tether():
 	position = Vector2.ZERO
 	active = false
 	pull = false
-	tether.node_b = ""
+	#tether.node_b = ""
 
 func _on_body_entered(body):
 	if (body == null):
@@ -80,7 +105,7 @@ func _on_body_entered(body):
 	pull = true
 	
 	# Attach Tether to Asteroid
-	tether.node_b = body.get_path()
+	#tether.node_b = body.get_path()
 	
 	#Apply line of sight raycast to asteroid
 	los.set_target_position(player_rocket.position)
