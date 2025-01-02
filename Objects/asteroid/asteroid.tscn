@@ -23,9 +23,7 @@ gravity_scale = 0.0
 script = ExtResource("1_tndy0")
 
 [node name="HitBox" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-14, 38, -86, -17, -25, -85, 22, -41, 72, -83, 151, -9)
 
 [node name="Visual" type="Polygon2D" parent="."]
 texture = SubResource("ImageTexture_0406o")
 texture_offset = Vector2(100, 25)
-polygon = PackedVector2Array(-14, 38, -86, -17, -25, -85, 22, -41, 72, -83, 151, -9)

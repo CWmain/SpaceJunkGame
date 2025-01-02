@@ -58,11 +58,12 @@ func calculate_area() -> float:
 	var leftSide: float = 0
 	var rightSide: float = 0
 	var poly : PackedVector2Array = visual.get_polygon()
+	if poly.size() == 0:
+		return 0
 	for i in range(poly.size()):				
 		if (i > 0):
 			leftSide += poly[i].x * poly[i-1].y
 			rightSide += poly[i-1].x * poly[i].y
-		
 	leftSide += poly[0].x * poly[poly.size()-1].y
 	rightSide += poly[poly.size()-1].x * poly[0].y
 	var sol: float = abs(leftSide-rightSide)/2
