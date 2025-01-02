@@ -57,12 +57,14 @@ func collectAsteroid() -> void:
 		pixelCountingMutex.unlock()
 		pixelCountingSemaphore.post()
 
-		#var screenshot = ImageTexture.create_from_image(myImage)
+		var screenshot = ImageTexture.create_from_image(myImage)
 		visualPoly.reparent(ast)
 		visualPoly.position = Vector2(0,0)
-		#text_screen_shot.texture = screenshot
+		text_screen_shot.texture = screenshot
 
-func countRGBPixels():
+## NOTE: Variable passed to countRGBPixels by the imageToCount global variable
+## Threaded function which returns the red, green, blue pixel count of imageToCount
+func countRGBPixels() -> void:
 	while true:
 		pixelCountingSemaphore.wait()
 		pixelCountingMutex.lock()
@@ -71,11 +73,14 @@ func countRGBPixels():
 		
 		if shouldExit: break
 		
+		#Store locally to decrease the time locked
 		pixelCountingMutex.lock()
+		var localImageToCount: Image = imageToCount
+		pixelCountingMutex.unlock()
 		var asteroidMakeUp: Dictionary = {"r":0,"g":0,"b":0}
 		for i in range(0,300):
 			for j in range(0,300):
-				var testColor : Color = imageToCount.get_pixel(i,j)
+				var testColor : Color = localImageToCount.get_pixel(i,j)
 				if (cmpColors(red,testColor)):
 					asteroidMakeUp["r"] += 1
 				if (cmpColors(green,testColor)):
@@ -85,7 +90,6 @@ func countRGBPixels():
 
 		for key in asteroidMakeUp.keys():
 			print(key, ": ", asteroidMakeUp[key])
-		pixelCountingMutex.unlock()
 	
 func printAllPixels(myImage: Image):
 	var dict = {}
