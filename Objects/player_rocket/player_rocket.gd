@@ -55,6 +55,8 @@ func _physics_process(_delta):
 
 func asteroidCut():
 	for entity in cutting_tool.get_overlapping_bodies():
+		var test: Asteroid = entity
+
 		# Shift both polygons into the global space so an intersection can be made
 		#region Global Polygon Calculation
 		var toCutPolygon : PackedVector2Array = entity.get_child(0).polygon.duplicate()

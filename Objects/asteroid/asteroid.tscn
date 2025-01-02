@@ -16,12 +16,13 @@ data = {
 image = SubResource("Image_4dp85")
 
 [node name="Asteroid" type="RigidBody2D"]
+position = Vector2(-1, 1)
 collision_layer = 15
 collision_mask = 15
 mass = 500.0
 gravity_scale = 0.0
 script = ExtResource("1_tndy0")
-test = ExtResource("2_4s3d1")
+properties = ExtResource("2_4s3d1")
 
 [node name="HitBox" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-14, 38, -86, -17, -25, -85, 22, -41, 72, -83, 151, -9)

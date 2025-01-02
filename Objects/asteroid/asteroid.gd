@@ -7,7 +7,13 @@ const MIN_ASTEROID_SIZE = 1000
 @onready var hit_box : CollisionPolygon2D = $HitBox
 @onready var visual : Polygon2D = $Visual
 
-@export var test: AsteroidVisuals
+@export var properties: AsteroidProperties:
+	set(value): 
+		set_polygons(value.shape)
+		visual.offset = value.textureOffest
+		visual.rotation = value.textureRotation
+		print("Works")
+	get : return properties
 
 var area = 1001;
 
@@ -17,6 +23,7 @@ var area = 1001;
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_area(calculate_area())
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

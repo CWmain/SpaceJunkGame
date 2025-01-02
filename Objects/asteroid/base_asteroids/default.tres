@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="AsteroidVisuals" load_steps=2 format=3 uid="uid://btbpyy6tkdhg7"]
 
-[ext_resource type="Script" path="res://Objects/asteroid/asteroid_visuals.gd" id="1_hb8qv"]
+[ext_resource type="Script" path="res://Objects/asteroid/asteroid_properties.gd" id="1_hb8qv"]
 
 [resource]
 script = ExtResource("1_hb8qv")
