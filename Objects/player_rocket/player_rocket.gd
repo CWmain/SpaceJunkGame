@@ -76,7 +76,7 @@ func asteroidCut():
 			#region Localise Polygon and find its area
 			var leftSide = 0
 			var rightSide = 0 
-			var localOverLapping = overlapping.duplicate()
+			var localOverLapping = overlapping
 			for i in range(localOverLapping.size()):			
 				localOverLapping[i] = entity.to_local(localOverLapping[i])
 				
