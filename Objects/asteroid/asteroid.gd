@@ -12,8 +12,11 @@ signal propertiesChanged()
 @export var properties: AsteroidProperties:
 	set(value):
 		properties = value
-		propertiesChanged.emit()
-
+		if (hit_box != null and visual != null):
+			set_polygons(properties.shape)
+			visual.texture_offset = properties.textureOffest
+			visual.texture_rotation = properties.textureRotation
+ 
 
 
 var area = 1001;
@@ -28,7 +31,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	color_test()
 	if area < MIN_ASTEROID_SIZE:
 		remove_asteroid()
 	
@@ -49,7 +51,7 @@ func remove_asteroid():
 	print("Removing Asteroid")
 	queue_free()
 
-func calculate_area():
+func calculate_area() -> float:
 	var leftSide: float = 0
 	var rightSide: float = 0
 	var poly : PackedVector2Array = visual.get_polygon()
@@ -60,16 +62,5 @@ func calculate_area():
 		
 	leftSide += poly[0].x * poly[poly.size()-1].y
 	rightSide += poly[poly.size()-1].x * poly[0].y
-	var sol = abs(leftSide-rightSide)/2
+	var sol: float = abs(leftSide-rightSide)/2
 	return sol
-
-func color_test():
-	
-	pass
-
-
-func _on_properties_changed():
-	set_polygons(properties.shape)
-	visual.texture_offset = properties.textureOffest
-	visual.texture_rotation = properties.textureRotation
-	pass # Replace with function body.

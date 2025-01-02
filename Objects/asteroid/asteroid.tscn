@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://prsjoep6c2o0"]
+[gd_scene load_steps=4 format=3 uid="uid://prsjoep6c2o0"]
 
 [ext_resource type="Script" path="res://Objects/asteroid/asteroid.gd" id="1_tndy0"]
-[ext_resource type="Resource" uid="uid://btbpyy6tkdhg7" path="res://Objects/asteroid/base_asteroids/default.tres" id="2_4s3d1"]
 
 [sub_resource type="Image" id="Image_4dp85"]
 data = {
@@ -22,7 +21,6 @@ collision_mask = 15
 mass = 500.0
 gravity_scale = 0.0
 script = ExtResource("1_tndy0")
-properties = ExtResource("2_4s3d1")
 
 [node name="HitBox" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-14, 38, -86, -17, -25, -85, 22, -41, 72, -83, 151, -9)
@@ -31,5 +29,3 @@ polygon = PackedVector2Array(-14, 38, -86, -17, -25, -85, 22, -41, 72, -83, 151,
 texture = SubResource("ImageTexture_0406o")
 texture_offset = Vector2(100, 25)
 polygon = PackedVector2Array(-14, 38, -86, -17, -25, -85, 22, -41, 72, -83, 151, -9)
-
-[connection signal="propertiesChanged" from="." to="." method="_on_properties_changed"]
