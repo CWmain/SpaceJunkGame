@@ -10,8 +10,10 @@ const MIN_ASTEROID_SIZE = 1000
 signal propertiesChanged()
 
 @export var properties: AsteroidProperties:
-	set(value):
+	set(value):	
 		properties = value
+		if (value == null):
+			return
 		if (hit_box != null and visual != null):
 			set_polygons(properties.shape)
 			visual.texture_offset = properties.textureOffest
@@ -26,6 +28,7 @@ var area = 1001;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	properties = properties
 	set_area(calculate_area())
 	
 
