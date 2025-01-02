@@ -59,7 +59,7 @@ func asteroidCut():
 
 		# Shift both polygons into the global space so an intersection can be made
 		#region Global Polygon Calculation
-		var toCutPolygon : PackedVector2Array = entityProperties.shape
+		var toCutPolygon : PackedVector2Array = entityProperties.shape.duplicate()
 		for i in range(toCutPolygon.size()):
 			toCutPolygon[i] = entity.to_global(toCutPolygon[i])			
 		var cutterPolygon : PackedVector2Array = collision_polygon.polygon
