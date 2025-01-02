@@ -14,7 +14,7 @@ var green : Color = Color(0, 0.7569, 0.1255, 1)
 var blue : Color = Color(0, 0.5804, 1, 1)
 #endregion
 
-func _on_collection_hit_box_body_entered(body):
+func _on_collection_hit_box_body_entered(_body):
 	collectAsteroid()
 
 func collectAsteroid() -> void:
