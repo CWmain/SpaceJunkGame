@@ -55,14 +55,14 @@ func _physics_process(_delta):
 
 func asteroidCut():
 	for entity in cutting_tool.get_overlapping_bodies():
-		var test: Asteroid = entity
+		var entityProperties : AsteroidProperties = entity.properties
 
 		# Shift both polygons into the global space so an intersection can be made
 		#region Global Polygon Calculation
-		var toCutPolygon : PackedVector2Array = entity.get_child(0).polygon.duplicate()
+		var toCutPolygon : PackedVector2Array = entityProperties.shape
 		for i in range(toCutPolygon.size()):
 			toCutPolygon[i] = entity.to_global(toCutPolygon[i])			
-		var cutterPolygon : PackedVector2Array = collision_polygon.polygon.duplicate()
+		var cutterPolygon : PackedVector2Array = collision_polygon.polygon
 		for i in range(cutterPolygon.size()):
 			cutterPolygon[i] = cutting_tool.to_global(cutterPolygon[i])
 		#endregion
@@ -72,6 +72,7 @@ func asteroidCut():
 		#NOTICE: If preformace issues consider object pooling for asteroids
 		#NOTICE: I think my area formula is wrong???
 		for overlapping in intersection:
+			print("OVERLAP")
 			#region Localise Polygon and find its area
 			var leftSide = 0
 			var rightSide = 0 
@@ -94,17 +95,21 @@ func asteroidCut():
 			print("Percent: ", percent)
 			
 			var splitAsteroid: Asteroid = asteroid.instantiate()
-			
+			var newProperties: AsteroidProperties = AsteroidProperties.new()
+			newProperties.shape = localOverLapping
+			newProperties.textureOffest = entityProperties.textureOffest
+			newProperties.textureRotation = entityProperties.textureRotation
 			get_tree().get_root().add_child(splitAsteroid)
 
 			#region Apply attributes to asteroid
+			splitAsteroid.properties = newProperties
 			splitAsteroid.set_area(area)
 			splitAsteroid.set_mass(entity.get_mass()*percent)
 			print("Mass: ", splitAsteroid.get_mass())
 			splitAsteroid.set_transform(entity.transform)
 			splitAsteroid.set_linear_velocity(entity.get_linear_velocity())
 			splitAsteroid.set_angular_velocity(entity.get_angular_velocity())
-			splitAsteroid.set_polygons(localOverLapping)
+			#splitAsteroid.set_polygons(localOverLapping)
 			#endregion
 			print("\n NEW \n")
 		

@@ -7,13 +7,14 @@ const MIN_ASTEROID_SIZE = 1000
 @onready var hit_box : CollisionPolygon2D = $HitBox
 @onready var visual : Polygon2D = $Visual
 
+signal propertiesChanged()
+
 @export var properties: AsteroidProperties:
-	set(value): 
-		set_polygons(value.shape)
-		visual.offset = value.textureOffest
-		visual.rotation = value.textureRotation
-		print("Works")
-	get : return properties
+	set(value):
+		properties = value
+		propertiesChanged.emit()
+
+
 
 var area = 1001;
 
@@ -65,3 +66,10 @@ func calculate_area():
 func color_test():
 	
 	pass
+
+
+func _on_properties_changed():
+	set_polygons(properties.shape)
+	visual.texture_offset = properties.textureOffest
+	visual.texture_rotation = properties.textureRotation
+	pass # Replace with function body.
