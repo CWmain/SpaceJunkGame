@@ -1,8 +1,11 @@
 extends Node2D
 @onready var text_screen_shot = $ColorRect/TextScreenShot
 
-#TODO: Understand why the region has an odd offset
-var screenshotRegion = Rect2(135,165,300,300)
+var pixelCountingThread: Thread
+var pixelCountingSemaphore: Semaphore
+var pixelCountingMutex: Mutex
+var exitThread: bool = false
+var imageToCount: Image
 
 @onready var collection_hit_box = $CollectionHitBox
 @onready var sub_viewport = $SubViewport
@@ -14,6 +17,25 @@ var green : Color = Color(0, 0.7569, 0.1255, 1)
 var blue : Color = Color(0, 0.5804, 1, 1)
 #endregion
 
+func _ready():
+	pixelCountingMutex = Mutex.new()
+	pixelCountingSemaphore = Semaphore.new()
+	exitThread = false
+	pixelCountingThread = Thread.new()
+	pixelCountingThread.start(countRGBPixels)
+	
+func _exit_tree():
+	# Set exit condition to true.
+	pixelCountingMutex.lock()
+	exitThread = true # Protect with Mutex.
+	pixelCountingMutex.unlock()
+
+	# Unblock by posting.
+	pixelCountingSemaphore.post()
+
+	# Wait until it exits.
+	pixelCountingThread.wait_to_finish()
+	
 func _on_collection_hit_box_body_entered(_body):
 	collectAsteroid()
 
@@ -30,11 +52,30 @@ func collectAsteroid() -> void:
 		var myImage : Image = sub_viewport.get_texture().get_image()
 		
 		#printAllPixels(myImage)
+		pixelCountingMutex.lock()
+		imageToCount = myImage
+		pixelCountingMutex.unlock()
+		pixelCountingSemaphore.post()
 
+		#var screenshot = ImageTexture.create_from_image(myImage)
+		visualPoly.reparent(ast)
+		visualPoly.position = Vector2(0,0)
+		#text_screen_shot.texture = screenshot
+
+func countRGBPixels():
+	while true:
+		pixelCountingSemaphore.wait()
+		pixelCountingMutex.lock()
+		var shouldExit = exitThread
+		pixelCountingMutex.unlock()
+		
+		if shouldExit: break
+		
+		pixelCountingMutex.lock()
 		var asteroidMakeUp: Dictionary = {"r":0,"g":0,"b":0}
 		for i in range(0,300):
 			for j in range(0,300):
-				var testColor : Color = myImage.get_pixel(i,j)
+				var testColor : Color = imageToCount.get_pixel(i,j)
 				if (cmpColors(red,testColor)):
 					asteroidMakeUp["r"] += 1
 				if (cmpColors(green,testColor)):
@@ -44,12 +85,7 @@ func collectAsteroid() -> void:
 
 		for key in asteroidMakeUp.keys():
 			print(key, ": ", asteroidMakeUp[key])
-
-		var screenshot = ImageTexture.create_from_image(myImage)
-		visualPoly.reparent(ast)
-		visualPoly.position = Vector2(0,0)
-		text_screen_shot.texture = screenshot
-	
+		pixelCountingMutex.unlock()
 	
 func printAllPixels(myImage: Image):
 	var dict = {}

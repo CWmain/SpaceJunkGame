@@ -38,8 +38,3 @@ properties = ExtResource("5_bca33")
 [node name="Asteroid2" parent="." instance=ExtResource("4_tsibv")]
 position = Vector2(-307, -257)
 properties = ExtResource("5_bca33")
-
-[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="."]
-position = Vector2(-108, -71)
-disable_collision = false
-stiffness = 64.0
