@@ -53,6 +53,7 @@ func _physics_process(_delta):
 		# Calculate the percentage force to apply
 		var percentageToApply: float = forcePercentFromDistance(tetherLength)
 		var forceAmount: float = percentageToApply * PULL_FORCE
+		
 		#Contruct vector2 to apply force in the right direction
 		var forceVector: Vector2 = tetherBaseVector*forceAmount
 		# Apply force to asteroid
@@ -61,11 +62,6 @@ func _physics_process(_delta):
 		
 		#Apply force to player rocket
 		player_rocket.apply_force(forceVector*-1)
-		
-		print("Length: ", tetherLength, "Percent: ", percentageToApply, "Force: ", forceAmount)
-
-		#print("BaseVector: ", forceVector)
-		#print("Force Amount: ", forceAmount)
 	
 	# If LOS is broken, than reset tether
 	if (los.is_colliding()):
