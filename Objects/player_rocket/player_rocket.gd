@@ -33,7 +33,7 @@ func _physics_process(_delta):
 	# Handle jump.
 	if Input.is_action_pressed("Accelerate"):
 		#linear_velocity += THRUST_VELOCITY.rotated(rotation)
-		apply_force(THRUST_VELOCITY.rotated(rotation), Vector2.ZERO)
+		apply_force(THRUST_VELOCITY.rotated(rotation))
 
 		
 	if Input.is_action_pressed("Stop"):

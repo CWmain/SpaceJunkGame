@@ -23,7 +23,8 @@ func _physics_process(_delta):
 	# Resets tether if it goes beyond the set distance from player rocket
 	# Checks for (active or pull) due to the distance_to function having stange behaviour 
 	# when the tether hook is reset on the player_rocket
-	if (player_rocket.position.distance_to(position) > MAX_TETHER_DISTANCE and (active or pull)):
+	if (to_local(player_rocket.position).length() > MAX_TETHER_DISTANCE and (active or pull)):
+		print("Max distance reached")
 		reset_tether()
 		
 	# Set raycast so it is always pointing to player ship
@@ -41,21 +42,25 @@ func _physics_process(_delta):
 	if (active):
 		position += Vector2(0,-1).rotated(rotation) * SPEED
 	
+	# Apply a force to the Asteroid to move it towards the player rocket
+	# Apply a force to the player rocket to move it towards the asteroid
 	if (pull):
-		var tetherBaseVector : Vector2 = to_local(player_rocket.position).normalized()
+		
+		# Get the vector from the tether to the player
+		var tetherBaseVector : Vector2 = global_position.direction_to(player_rocket.position)
 		var tetherLength: float = to_local(player_rocket.position).length()
-		var tetherAngle: float = player_rocket.position.angle()
+
 		# Calculate the percentage force to apply
-		var percentageToApply: float = (tetherLength-MIN_TETHER_DISTANCE)/MAX_TETHER_DISTANCE
+		var percentageToApply: float = forcePercentFromDistance(tetherLength)
 		var forceAmount: float = percentageToApply * PULL_FORCE
 		#Contruct vector2 to apply force in the right direction
 		var forceVector: Vector2 = tetherBaseVector*forceAmount
 		# Apply force to asteroid
 		var ast : Asteroid = get_parent()
-		ast.apply_force(forceVector, position)
+		ast.apply_force(forceVector)
 		
 		#Apply force to player rocket
-		player_rocket.apply_force(forceVector*-1, player_rocket.position)
+		player_rocket.apply_force(forceVector*-1)
 		
 		print("Length: ", tetherLength, "Percent: ", percentageToApply, "Force: ", forceAmount)
 
@@ -64,6 +69,7 @@ func _physics_process(_delta):
 	
 	# If LOS is broken, than reset tether
 	if (los.is_colliding()):
+		print("Line of Sight broken")
 		reset_tether()
 
 func fire_tether():
@@ -91,6 +97,10 @@ func reset_tether():
 	active = false
 	pull = false
 	#tether.node_b = ""
+
+func forcePercentFromDistance(distance: float) -> float:
+	var percent = (distance-MIN_TETHER_DISTANCE)/MAX_TETHER_DISTANCE
+	return percent
 
 func _on_body_entered(body):
 	if (body == null):
