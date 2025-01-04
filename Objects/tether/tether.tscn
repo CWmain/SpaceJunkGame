@@ -12,7 +12,6 @@ point_count = 2
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_fhoa8")
-MIN_TETHER_DISTANCE = 0
 forceDistribution = SubResource("Curve_mfmjt")
 
 [node name="LOS" type="RayCast2D" parent="."]

@@ -98,7 +98,6 @@ func reset_tether():
 
 func forcePercentFromDistance(distance: float) -> float:
 	var percent = (distance-MIN_TETHER_DISTANCE)/MAX_TETHER_DISTANCE
-	#forceDistribution.sample(percent)
 	return forceDistribution.sample(percent)
 
 func _on_body_entered(body):
