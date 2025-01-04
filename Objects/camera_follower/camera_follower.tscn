@@ -6,6 +6,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_27ts3"]
 shader = ExtResource("2_74tlx")
 shader_parameter/curve = 10.0
+shader_parameter/rocket_position = Vector2(0.5, 0.5)
 
 [node name="CameraFollower" type="Node2D"]
 script = ExtResource("1_tnqmu")

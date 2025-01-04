@@ -12,7 +12,20 @@ func _ready():
 func _physics_process(delta):
 	# Get the distance from camera to the follow target
 	var curDistance = position.distance_to(toFollow.position)
+	#region Gives shader current rocket position
+	var currentResolution: Vector2 = get_viewport().get_visible_rect().size;
+	var relativeToCamera: Vector2 = toFollow.global_position - position;
 	
+	# As this relative region is -960x -> 960x and -540y -> 540y, 
+	# shift so the whole space so it is in the positives based on half resolution
+	var relativeShiftedPositive: Vector2 = relativeToCamera+currentResolution/2;
+	
+	# Since shaders work in the range 0->1, divide by current resolution
+	var shaderPosition : Vector2 = relativeShiftedPositive/currentResolution
+	
+	color_rect.material.set_shader_parameter("rocket_position", shaderPosition)
+	#endregion
+
 	# Normal Speed
 	if curDistance < maxDistance/2:
 		cameraSpeedMult(delta)
