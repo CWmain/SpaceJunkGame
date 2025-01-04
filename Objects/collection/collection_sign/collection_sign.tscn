@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cujpysrpho40"]
+
+[node name="Sign" type="Polygon2D"]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-150, 100, -150, -100, 150, -100, 150, 100)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -109.0
+offset_top = -77.0
+offset_right = -69.0
+offset_bottom = -54.0
+text = "You need to get: X"
