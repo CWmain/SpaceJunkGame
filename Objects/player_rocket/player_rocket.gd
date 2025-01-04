@@ -35,7 +35,7 @@ func _physics_process(delta):
 		apply_force(THRUST_VELOCITY.rotated(rotation) * delta)
 
 		
-	if Input.is_action_pressed("Stop"):
+	if Input.is_action_pressed("Stop") and false:
 		linear_velocity.x = move_toward(linear_velocity.x, 0, STOP_SPEED*delta)
 		linear_velocity.y = move_toward(linear_velocity.y, 0, STOP_SPEED*delta)
 		angular_velocity = move_toward(angular_velocity, 0, STOP_SPEED*delta)
