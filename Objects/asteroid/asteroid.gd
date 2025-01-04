@@ -7,8 +7,6 @@ const MIN_ASTEROID_SIZE = 1000
 @onready var hit_box : CollisionPolygon2D = $HitBox
 @onready var visual : Polygon2D = $Visual
 
-signal propertiesChanged()
-
 @export var properties: AsteroidProperties:
 	set(value):	
 		properties = value
