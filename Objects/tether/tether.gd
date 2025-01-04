@@ -14,6 +14,8 @@ var pull: bool = false
 @export var player_rocket: RigidBody2D
 @export var tether: DampedSpringJoint2D
 
+@export var forceDistribution: Curve
+
 @onready var tether_hook = $"."
 @onready var los = $LOS
 @onready var tether_line = $TetherLine
@@ -96,7 +98,8 @@ func reset_tether():
 
 func forcePercentFromDistance(distance: float) -> float:
 	var percent = (distance-MIN_TETHER_DISTANCE)/MAX_TETHER_DISTANCE
-	return percent
+	#forceDistribution.sample(percent)
+	return forceDistribution.sample(percent)
 
 func _on_body_entered(body):
 	if (body == null):

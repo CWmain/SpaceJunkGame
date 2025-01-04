@@ -1,6 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://booojh8xhn0yk"]
+[gd_scene load_steps=4 format=3 uid="uid://booojh8xhn0yk"]
 
 [ext_resource type="Script" path="res://Objects/tether/tether.gd" id="1_fhoa8"]
+
+[sub_resource type="Curve" id="Curve_mfmjt"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 1.64368, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o7f8s"]
 
@@ -9,6 +13,7 @@ collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_fhoa8")
 MIN_TETHER_DISTANCE = 0
+forceDistribution = SubResource("Curve_mfmjt")
 
 [node name="LOS" type="RayCast2D" parent="."]
 enabled = false
