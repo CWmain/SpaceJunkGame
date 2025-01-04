@@ -1,12 +1,11 @@
 extends RigidBody2D
 
 
-const SPEED = 300.0
-const STOP_SPEED = 300.0
-const ROTATION_SPEED = PI/64
-const JUMP_VELOCITY = -100.0
-const THRUST_VELOCITY = Vector2(0,-300)
-const TETHER_FORCE = 100
+const STOP_SPEED = 300.0*60
+const ROTATION_SPEED = (PI/64) * 60
+
+const THRUST_VELOCITY = Vector2(0,-18000)
+
 
 @onready var cutting_tool = $CuttingTool
 @onready var collision_polygon = $CuttingTool/CollisionPolygon
@@ -25,7 +24,7 @@ func _process(_delta):
 		tether_hook.reset_tether()
 		asteroidCut()
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	# Add the drag.
 	#if not is_on_floor():
 	#	velocity.y += gravity * delta
@@ -33,20 +32,20 @@ func _physics_process(_delta):
 	# Handle jump.
 	if Input.is_action_pressed("Accelerate"):
 		#linear_velocity += THRUST_VELOCITY.rotated(rotation)
-		apply_force(THRUST_VELOCITY.rotated(rotation))
+		apply_force(THRUST_VELOCITY.rotated(rotation) * delta)
 
 		
 	if Input.is_action_pressed("Stop"):
-		linear_velocity.x = move_toward(linear_velocity.x, 0, STOP_SPEED)
-		linear_velocity.y = move_toward(linear_velocity.y, 0, STOP_SPEED)
-		angular_velocity = move_toward(angular_velocity, 0, STOP_SPEED)
+		linear_velocity.x = move_toward(linear_velocity.x, 0, STOP_SPEED*delta)
+		linear_velocity.y = move_toward(linear_velocity.y, 0, STOP_SPEED*delta)
+		angular_velocity = move_toward(angular_velocity, 0, STOP_SPEED*delta)
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	
 	var rot = Input.get_axis("TurnLeft", "TurnRight")
 	if rot:
-		rotate(rot * ROTATION_SPEED)
+		rotate(rot * ROTATION_SPEED * delta)
 		
 	if Input.is_action_just_pressed("Tether"):
 		tether_hook.fire_tether()

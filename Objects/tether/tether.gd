@@ -1,7 +1,6 @@
 extends Node2D
 
-var SPEED = 5
-var TETHER_FORCE = 10
+var SPEED: float = 300
 var TETHER_DISTANCE = 600
 
 var active: bool = false
@@ -9,7 +8,7 @@ var pull: bool = false
 
 @export var MIN_TETHER_DISTANCE = 10
 @export var MAX_TETHER_DISTANCE = 600
-@export var PULL_FORCE: float = 1000
+@export var PULL_FORCE: float = 57600
 
 @export var player_rocket: RigidBody2D
 @export var tether: DampedSpringJoint2D
@@ -20,7 +19,7 @@ var pull: bool = false
 @onready var los = $LOS
 @onready var tether_line = $TetherLine
 
-func _physics_process(_delta):
+func _physics_process(delta):
 
 	# Resets tether if it goes beyond the set distance from player rocket
 	# Checks for (active or pull) due to the distance_to function having stange behaviour 
@@ -42,7 +41,7 @@ func _physics_process(_delta):
 	
 	# State where tether hook is shot and is travelling
 	if (active):
-		position += Vector2(0,-1).rotated(rotation) * SPEED
+		position += Vector2(0,-1).rotated(rotation) * SPEED * delta
 	
 	# Apply a force to the Asteroid to move it towards the player rocket
 	# Apply a force to the player rocket to move it towards the asteroid
@@ -54,7 +53,7 @@ func _physics_process(_delta):
 
 		# Calculate the percentage force to apply
 		var percentageToApply: float = forcePercentFromDistance(tetherLength)
-		var forceAmount: float = percentageToApply * PULL_FORCE
+		var forceAmount: float = percentageToApply * PULL_FORCE * delta
 		
 		#Contruct vector2 to apply force in the right direction
 		var forceVector: Vector2 = tetherBaseVector*forceAmount
@@ -94,7 +93,6 @@ func reset_tether():
 	position = Vector2.ZERO
 	active = false
 	pull = false
-	#tether.node_b = ""
 
 func forcePercentFromDistance(distance: float) -> float:
 	var percent = (distance-MIN_TETHER_DISTANCE)/MAX_TETHER_DISTANCE
