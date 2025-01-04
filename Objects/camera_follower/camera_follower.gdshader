@@ -2,7 +2,7 @@ shader_type canvas_item;
 render_mode unshaded, skip_vertex_transform;
 
 uniform sampler2D screen_texture: hint_screen_texture;
-uniform float curve = 1.0;
+uniform float curve;
 
 void fragment() {
 	// Called for every pixel the material is visible on.
