@@ -34,13 +34,13 @@ func _physics_process(delta):
 	# Double Speed
 	elif curDistance < maxDistance:
 		cameraSpeedMult(2*delta)
-		color_rect.material.set_shader_parameter("curve", 5.0)
+		color_rect.material.set_shader_parameter("force", 0.05)
 		color_rect.show()
 	# Keeps at the maximum distance no matter what	
 	else:
 		position += toFollow.position - position - (position.direction_to(toFollow.position)*maxDistance)
 		position = floor(position)
-		color_rect.material.set_shader_parameter("curve", 1.0)
+		color_rect.material.set_shader_parameter("force", 0.1)
 		color_rect.show()
 
 ## Function to easily apply multiplications of follow speed
