@@ -18,4 +18,3 @@ func _process(delta):
 		newAsteroid.area = 1001
 		newAsteroid.mass = 100
 		print("Mass: ", newAsteroid.get_mass())
-

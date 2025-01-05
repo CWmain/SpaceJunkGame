@@ -92,22 +92,23 @@ func asteroidCut():
 			#Finds the percent that the overlap is of the original
 			var percent = area / entity.area
 			print("Percent: ", percent)
-			
 			var splitAsteroid: Asteroid = asteroid.instantiate()
 			var newProperties: AsteroidProperties = AsteroidProperties.new()
 			newProperties.shape = localOverLapping
 			newProperties.textureOffest = entityProperties.textureOffest
 			newProperties.textureRotation = entityProperties.textureRotation
+			newProperties.mass = entity.get_mass()*percent
+			newProperties.initialTransform = entity.transform
+			newProperties.initialAngularVelocity = entity.get_angular_velocity()
+			newProperties.initialLinearVelocity = entity.get_linear_velocity()
+			splitAsteroid.properties = newProperties
 			get_tree().get_root().add_child(splitAsteroid)
 
 			#region Apply attributes to asteroid
-			splitAsteroid.properties = newProperties
-			splitAsteroid.set_area(area)
-			splitAsteroid.set_mass(entity.get_mass()*percent)
+
+			print("Area: ", splitAsteroid.area)
 			print("Mass: ", splitAsteroid.get_mass())
-			splitAsteroid.set_transform(entity.transform)
-			splitAsteroid.set_linear_velocity(entity.get_linear_velocity())
-			splitAsteroid.set_angular_velocity(entity.get_angular_velocity())
+
 			#splitAsteroid.set_polygons(localOverLapping)
 			#endregion
 			print("\n NEW \n")

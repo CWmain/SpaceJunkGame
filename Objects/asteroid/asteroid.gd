@@ -7,6 +7,11 @@ const MIN_ASTEROID_SIZE = 1000
 @onready var hit_box : CollisionPolygon2D = $HitBox
 @onready var visual : Polygon2D = $Visual
 
+var templateAsteroid = preload("res://Objects/asteroid/asteroid.tscn")
+
+var area = 1001;
+
+## Properties should only ever be modified at initial creation
 @export var properties: AsteroidProperties:
 	set(value):	
 		properties = value
@@ -16,10 +21,15 @@ const MIN_ASTEROID_SIZE = 1000
 			set_polygons(properties.shape)
 			visual.texture_offset = properties.textureOffest
 			visual.texture_rotation = properties.textureRotation
+			area = calculate_area()
+			mass = properties.mass
+			angular_velocity = properties.initialAngularVelocity
+			linear_velocity = properties.initialLinearVelocity
+			transform = properties.initialTransform
+			
  
 
 
-var area = 1001;
 
 #TODO: When created they should move away from the cutting tool, not sure where to place logic
 
@@ -27,17 +37,12 @@ var area = 1001;
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	properties = properties
-	set_area(calculate_area())
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if area < MIN_ASTEROID_SIZE:
 		remove_asteroid()
-	
-
-func set_area(i):
-	area = i
 
 ## Sets the collision and visual polygon of Asteroid
 func set_polygons(p: PackedVector2Array):
@@ -66,3 +71,4 @@ func calculate_area() -> float:
 	rightSide += poly[poly.size()-1].x * poly[0].y
 	var sol: float = abs(leftSide-rightSide)/2
 	return sol
+
