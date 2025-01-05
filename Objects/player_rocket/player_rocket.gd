@@ -98,11 +98,11 @@ func asteroidCut():
 			newProperties.textureOffest = entityProperties.textureOffest
 			newProperties.textureRotation = entityProperties.textureRotation
 			newProperties.mass = entity.get_mass()*percent
-			newProperties.initialTransform = entity.transform
 			newProperties.initialAngularVelocity = entity.get_angular_velocity()
 			newProperties.initialLinearVelocity = entity.get_linear_velocity()
 			splitAsteroid.properties = newProperties
 			get_tree().get_root().add_child(splitAsteroid)
+			splitAsteroid.transform = entity.transform
 
 			#region Apply attributes to asteroid
 

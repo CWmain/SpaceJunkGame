@@ -9,7 +9,7 @@ const MIN_ASTEROID_SIZE = 1000
 
 var templateAsteroid = preload("res://Objects/asteroid/asteroid.tscn")
 
-var area = 1001;
+var area;
 
 ## Properties should only ever be modified at initial creation
 @export var properties: AsteroidProperties:
@@ -25,7 +25,7 @@ var area = 1001;
 			mass = properties.mass
 			angular_velocity = properties.initialAngularVelocity
 			linear_velocity = properties.initialLinearVelocity
-			transform = properties.initialTransform
+
 			
  
 
