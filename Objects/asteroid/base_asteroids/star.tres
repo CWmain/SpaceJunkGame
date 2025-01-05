@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AsteroidProperties" load_steps=2 format=3 uid="uid://cl4c2wpr6268i"]
+
+[ext_resource type="Script" path="res://Objects/asteroid/asteroid_properties.gd" id="1_2ubse"]
+
+[resource]
+script = ExtResource("1_2ubse")
+mass = 100.0
+initialAngularVelocity = 0.0
+initialLinearVelocity = Vector2(0, 0)
+shape = PackedVector2Array(-16, 57, -22, 9, -74, 5, -20, -11, -63, -43, 1, -20, 52, -53, 17, -11, 45, 45, 2, 14)
+textureOffest = Vector2(100, 100)
+textureRotation = 20.0
