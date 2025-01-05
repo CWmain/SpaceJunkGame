@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://n468ffa12goh"]
+[gd_scene load_steps=9 format=3 uid="uid://n468ffa12goh"]
 
 [ext_resource type="Script" path="res://Objects/Test_Scene.gd" id="1_gvyoo"]
 [ext_resource type="PackedScene" uid="uid://dyn3wc664s0kq" path="res://Objects/player_rocket/player_rocket.tscn" id="4_5qqnx"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c705ip8jionba" path="res://Objects/camera_follower/camera_follower.tscn" id="4_nrw3g"]
 [ext_resource type="PackedScene" uid="uid://prsjoep6c2o0" path="res://Objects/asteroid/asteroid.tscn" id="4_tsibv"]
 [ext_resource type="Resource" uid="uid://btbpyy6tkdhg7" path="res://Objects/asteroid/base_asteroids/default.tres" id="5_bca33"]
+[ext_resource type="PackedScene" uid="uid://cpextm7y55ils" path="res://Objects/asteroid/asteroid_spawner/asteroid_spawner.tscn" id="7_slesi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0fm31"]
 size = Vector2(109.7, 20)
@@ -43,3 +44,6 @@ properties = ExtResource("5_bca33")
 [node name="Asteroid2" parent="." instance=ExtResource("4_tsibv")]
 position = Vector2(-307, -257)
 properties = ExtResource("5_bca33")
+
+[node name="AsteroidSpawner" parent="." instance=ExtResource("7_slesi")]
+position = Vector2(-607, -170)
