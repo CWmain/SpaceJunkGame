@@ -1,8 +1,11 @@
-[gd_scene format=3 uid="uid://cujpysrpho40"]
+[gd_scene load_steps=2 format=3 uid="uid://cujpysrpho40"]
+
+[ext_resource type="Script" path="res://Objects/collection/collection_sign/collection_sign.gd" id="1_ocapn"]
 
 [node name="Sign" type="Polygon2D"]
 color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(-150, 100, -150, -100, 150, -100, 150, 100)
+script = ExtResource("1_ocapn")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -109.0

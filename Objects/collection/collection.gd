@@ -1,14 +1,22 @@
 extends Node2D
 @onready var text_screen_shot = $ColorRect/TextScreenShot
 
+#region Variables for the pixel counting thread
 var pixelCountingThread: Thread
 var pixelCountingSemaphore: Semaphore
 var pixelCountingMutex: Mutex
 var exitThread: bool = false
 var imageToCount: Image
+#endregion
+
+var scoreMutex: Mutex
+var scoreUpdate: bool = false
+var score: Dictionary = {"r":0,"g":0,"b":0}
 
 @onready var collection_hit_box = $CollectionHitBox
 @onready var sub_viewport = $SubViewport
+
+@onready var scoreSign = $Sign
 
 #TODO: Update colour definitions when a new texture is made
 #region Asteroid Colors
@@ -18,11 +26,23 @@ var blue : Color = Color(0, 0.5804, 1, 1)
 #endregion
 
 func _ready():
+	# Initialise all variables needed for the pixel counting thread
 	pixelCountingMutex = Mutex.new()
 	pixelCountingSemaphore = Semaphore.new()
-	exitThread = false
 	pixelCountingThread = Thread.new()
 	pixelCountingThread.start(countRGBPixels)
+	exitThread = false
+	
+	scoreMutex = Mutex.new()
+
+func _process(delta):
+	if scoreUpdate:
+		scoreMutex.lock()
+		scoreSign.label.set_text(str(score))
+		scoreUpdate = false
+		scoreMutex.unlock()
+	if Input.is_action_just_pressed("PlacePoint"):
+		print(score)
 	
 func _exit_tree():
 	# Set exit condition to true.
@@ -57,9 +77,12 @@ func collectAsteroid() -> void:
 		pixelCountingMutex.unlock()
 		pixelCountingSemaphore.post()
 
-		var screenshot = ImageTexture.create_from_image(myImage)
+		# Reparents the visual polygon back to its original owner (Asteroid)
 		visualPoly.reparent(ast)
 		visualPoly.position = Vector2(0,0)
+
+		# Generates a screenshot for visual clarity on the subviewport
+		var screenshot = ImageTexture.create_from_image(myImage)
 		text_screen_shot.texture = screenshot
 
 ## NOTE: Variable passed to countRGBPixels by the imageToCount global variable
@@ -75,7 +98,7 @@ func countRGBPixels() -> void:
 		
 		#Store locally to decrease the time locked
 		pixelCountingMutex.lock()
-		var localImageToCount: Image = imageToCount
+		var localImageToCount: Image = imageToCount.duplicate()
 		pixelCountingMutex.unlock()
 		var asteroidMakeUp: Dictionary = {"r":0,"g":0,"b":0}
 		for i in range(0,300):
@@ -88,8 +111,12 @@ func countRGBPixels() -> void:
 				if (cmpColors(blue,testColor)):
 					asteroidMakeUp["b"] += 1
 
+		scoreMutex.lock()
 		for key in asteroidMakeUp.keys():
+			score[key] += asteroidMakeUp[key]
 			print(key, ": ", asteroidMakeUp[key])
+		scoreUpdate = true
+		scoreMutex.unlock()
 	
 func printAllPixels(myImage: Image):
 	var dict = {}
