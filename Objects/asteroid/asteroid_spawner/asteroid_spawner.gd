@@ -4,8 +4,6 @@ var asteroid = preload("res://Objects/asteroid/asteroid.tscn")
 var def = preload("res://Objects/asteroid/base_asteroids/default.tres")
 var star = preload("res://Objects/asteroid/base_asteroids/star.tres")
 
-#TODO: Consider moving random to singelton so seeds may be used and consistent
-var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
 func _process(_delta):
 
@@ -14,7 +12,7 @@ func _process(_delta):
 		var newProperties: AsteroidProperties
 		
 		# We duplicate to avoid issues of editing the base shape
-		if rng.randf() > 0.5:
+		if Global.rng.randf() > 0.5:
 			newProperties = def.duplicate()
 		else:
 			newProperties = star.duplicate()
