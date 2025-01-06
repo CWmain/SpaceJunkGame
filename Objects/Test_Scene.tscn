@@ -37,7 +37,7 @@ lock_rotation = true
 toFollow = NodePath("../PlayerRocket")
 
 [node name="Asteroid" parent="." instance=ExtResource("4_tsibv")]
-position = Vector2(-241, 13)
+position = Vector2(-9.00002, -279)
 rotation = 2.98446
 mass = 100.0
 properties = ExtResource("5_bca33")

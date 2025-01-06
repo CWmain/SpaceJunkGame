@@ -7,7 +7,7 @@ var star = preload("res://Objects/asteroid/base_asteroids/star.tres")
 #TODO: Consider moving random to singelton so seeds may be used and consistent
 var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 
-func _process(delta):
+func _process(_delta):
 
 	if get_tree().get_nodes_in_group("Asteroid").size() < 2:
 		var newAsteroid: Asteroid = asteroid.instantiate()

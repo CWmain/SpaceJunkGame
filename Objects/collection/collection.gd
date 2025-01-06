@@ -35,7 +35,7 @@ func _ready():
 	
 	scoreMutex = Mutex.new()
 
-func _process(delta):
+func _process(_delta):
 	if scoreUpdate:
 		scoreMutex.lock()
 		scoreSign.label.set_text(str(score))
@@ -62,10 +62,11 @@ func _on_collection_hit_box_body_entered(_body):
 func collectAsteroid() -> void:
 	var toCollect : Array[Node2D] = collection_hit_box.get_overlapping_bodies()
 	for ast in toCollect:
+		# Prevents collection if the hook is still attached to the asteroid
 		if ast.get_node_or_null("TetherHook") != null:
 			continue
-		var visualPoly: Polygon2D = ast.visual
 		
+		var visualPoly: Polygon2D = ast.visual
 		visualPoly.reparent(sub_viewport)
 		visualPoly.position = Vector2(150,150)
 		
