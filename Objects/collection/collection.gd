@@ -47,7 +47,7 @@ func _process(delta):
 func _exit_tree():
 	# Set exit condition to true.
 	pixelCountingMutex.lock()
-	exitThread = true # Protect with Mutex.
+	exitThread = true 
 	pixelCountingMutex.unlock()
 
 	# Unblock by posting.
@@ -62,6 +62,8 @@ func _on_collection_hit_box_body_entered(_body):
 func collectAsteroid() -> void:
 	var toCollect : Array[Node2D] = collection_hit_box.get_overlapping_bodies()
 	for ast in toCollect:
+		if ast.get_node_or_null("TetherHook") != null:
+			continue
 		var visualPoly: Polygon2D = ast.visual
 		
 		visualPoly.reparent(sub_viewport)
@@ -81,7 +83,10 @@ func collectAsteroid() -> void:
 		visualPoly.reparent(ast)
 		visualPoly.position = Vector2(0,0)
 
-		# Generates a screenshot for visual clarity on the subviewport
+		# Free the asteroid
+		ast.queue_free()
+
+		# Generates a screednshot for visual clarity on the subviewport
 		var screenshot = ImageTexture.create_from_image(myImage)
 		text_screen_shot.texture = screenshot
 

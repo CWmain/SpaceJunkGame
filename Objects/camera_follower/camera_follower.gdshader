@@ -22,7 +22,4 @@ void fragment() {
 	float mask = (1.0 - smoothstep(0.4, 0.5, length(scaledUV - rocket_position))) * smoothstep(0.2, 0.3, length(scaledUV - rocket_position));
 
 	COLOR = texture(screen_texture, SCREEN_UV-disp*mask);
-	
-	
-
 }
