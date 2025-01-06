@@ -10,6 +10,7 @@ var pull: bool = false
 @export var MAX_TETHER_DISTANCE = 600
 @export var PULL_FORCE: float = 57600
 
+var hook_target: Asteroid
 @export var player_rocket: RigidBody2D
 @export var tether: DampedSpringJoint2D
 
@@ -45,7 +46,8 @@ func _physics_process(delta):
 	
 	# Apply a force to the Asteroid to move it towards the player rocket
 	# Apply a force to the player rocket to move it towards the asteroid
-	if (pull):
+	# Since we use call_deferred to reparent on collision, need to check that it was been done
+	if (pull and (get_parent() is Asteroid) ):
 		
 		# Get the vector from the tether to the player
 		var tetherBaseVector : Vector2 = global_position.direction_to(player_rocket.position)
@@ -57,6 +59,7 @@ func _physics_process(delta):
 		
 		#Contruct vector2 to apply force in the right direction
 		var forceVector: Vector2 = tetherBaseVector*forceAmount
+			
 		# Apply force to asteroid
 		var ast : Asteroid = get_parent()
 		ast.apply_force(forceVector)
@@ -107,11 +110,8 @@ func _on_body_entered(body):
 	tether_hook.set_collision_mask(0)
 
 	# Reparent to the asteroid
-	reparent(body)
+	call_deferred("reparent", body)
 	pull = true
-	
-	# Attach Tether to Asteroid
-	#tether.node_b = body.get_path()
 	
 	#Apply line of sight raycast to asteroid
 	los.set_target_position(player_rocket.position)
