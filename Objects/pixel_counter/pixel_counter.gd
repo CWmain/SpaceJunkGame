@@ -51,6 +51,7 @@ func _process(_delta):
 		scoreSignal.emit()
 		scoreUpdate = false
 
+#TODO: Think of a better name for the love of G*d
 ## Passed a visual polygon which will be placed in the viewport to have the picture taken
 func visualPolygonImageGenerator(p: Polygon2D) -> void:
 	var ourPoly : Polygon2D = p.duplicate()

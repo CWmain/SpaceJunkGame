@@ -43,7 +43,8 @@ properties = ExtResource("5_bca33")
 position = Vector2(-307, -257)
 properties = ExtResource("7_m1b64")
 
-[node name="AsteroidSpawner" parent="." instance=ExtResource("7_slesi")]
+[node name="AsteroidSpawner" parent="." node_paths=PackedStringArray("pixelCounter") instance=ExtResource("7_slesi")]
 position = Vector2(-607, -170)
+pixelCounter = NodePath("../pixelCounter")
 
 [node name="pixelCounter" parent="." instance=ExtResource("8_745im")]
