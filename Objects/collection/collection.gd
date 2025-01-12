@@ -5,20 +5,20 @@ var scoreUpdate: bool = false
 var score: Dictionary = {"r":0,"g":0,"b":0}
 
 @onready var collection_hit_box = $CollectionHitBox
-@onready var pixel_counter = $pixelCounter
+#@onready var pixel_counter = $pixelCounter
 @onready var scoreSign = $Sign
 
+@export var pixel_counter: SubViewport
 
 
 func _ready():
 	scoreMutex = Mutex.new()
+	
+	# TODO: Sign can be moved out of collection into its own node since there is now one common
+	# Connect the singal update to update the sign
+	pixel_counter.scoreSignal.connect(_on_score_signal)
 
 func _process(_delta):
-	if scoreUpdate:
-		scoreMutex.lock()
-		scoreSign.label.set_text(str(score))
-		scoreUpdate = false
-		scoreMutex.unlock()
 	if Input.is_action_just_pressed("PlacePoint"):
 		print(score)
 	
@@ -52,3 +52,6 @@ func printAllPixels(myImage: Image):
 		if dict[key] > 200:
 			print(key, ": ", dict[key])
 
+func _on_score_signal():
+	scoreSign.label.set_text(str(pixel_counter.score))
+	

@@ -10,6 +10,7 @@ var imageToCount: Image
 
 var scoreMutex: Mutex
 var scoreUpdate: bool = false
+signal scoreSignal
 var score: Dictionary = {"r":0,"g":0,"b":0}
 
 #TODO: Update colour definitions when a new texture is made
@@ -45,7 +46,10 @@ func _exit_tree():
 	pixelCountingThread.wait_to_finish()
 
 
-# Do we return a percent or do we simply return the count of all found colors
+func _process(_delta):
+	if scoreUpdate:
+		scoreSignal.emit()
+		scoreUpdate = false
 
 ## Passed a visual polygon which will be placed in the viewport to have the picture taken
 func visualPolygonImageGenerator(p: Polygon2D) -> void:

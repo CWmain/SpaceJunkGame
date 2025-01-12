@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://n468ffa12goh"]
+[gd_scene load_steps=10 format=3 uid="uid://n468ffa12goh"]
 
 [ext_resource type="Script" path="res://Objects/Test_Scene.gd" id="1_gvyoo"]
 [ext_resource type="PackedScene" uid="uid://dyn3wc664s0kq" path="res://Objects/player_rocket/player_rocket.tscn" id="4_5qqnx"]
@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://btbpyy6tkdhg7" path="res://Objects/asteroid/base_asteroids/default.tres" id="5_bca33"]
 [ext_resource type="Resource" uid="uid://cl4c2wpr6268i" path="res://Objects/asteroid/base_asteroids/star.tres" id="7_m1b64"]
 [ext_resource type="PackedScene" uid="uid://cpextm7y55ils" path="res://Objects/asteroid/asteroid_spawner/asteroid_spawner.tscn" id="7_slesi"]
+[ext_resource type="PackedScene" uid="uid://dh48kb8haavxl" path="res://Objects/pixel_counter/pixel_counter.tscn" id="8_745im"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0fm31"]
 size = Vector2(109.7, 20)
@@ -16,8 +17,9 @@ script = ExtResource("1_gvyoo")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="Collection" parent="." instance=ExtResource("4_f4wre")]
+[node name="Collection" parent="." node_paths=PackedStringArray("pixel_counter") instance=ExtResource("4_f4wre")]
 position = Vector2(-291, -8)
+pixel_counter = NodePath("../pixelCounter")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(1, 91)
@@ -43,3 +45,5 @@ properties = ExtResource("7_m1b64")
 
 [node name="AsteroidSpawner" parent="." instance=ExtResource("7_slesi")]
 position = Vector2(-607, -170)
+
+[node name="pixelCounter" parent="." instance=ExtResource("8_745im")]

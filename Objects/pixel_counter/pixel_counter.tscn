@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Objects/pixel_counter/pixel_counter.gd" id="1_560m8"]
 
-[node name="SubViewport" type="SubViewport"]
+[node name="pixelCounter" type="SubViewport"]
 handle_input_locally = false
 size = Vector2i(300, 300)
 render_target_update_mode = 4

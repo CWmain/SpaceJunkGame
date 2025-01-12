@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxy7guq2edoc7"]
+[gd_scene load_steps=4 format=3 uid="uid://dxy7guq2edoc7"]
 
 [ext_resource type="Script" path="res://Objects/collection/collection.gd" id="1_4t4bj"]
-[ext_resource type="PackedScene" uid="uid://dh48kb8haavxl" path="res://Objects/pixel_counter/pixel_counter.tscn" id="3_1oge0"]
 [ext_resource type="PackedScene" uid="uid://cujpysrpho40" path="res://Objects/collection/collection_sign/collection_sign.tscn" id="3_i4v8q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tg8pj"]
@@ -23,8 +22,6 @@ collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollectionHitBox"]
 shape = SubResource("RectangleShape2D_tg8pj")
-
-[node name="pixelCounter" parent="." instance=ExtResource("3_1oge0")]
 
 [node name="Sign" parent="." instance=ExtResource("3_i4v8q")]
 position = Vector2(1, -255)
