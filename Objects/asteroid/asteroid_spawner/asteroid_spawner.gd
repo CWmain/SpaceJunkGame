@@ -10,7 +10,7 @@ func _ready():
 	assert(pixelCounter != null)
 
 func _process(_delta):
-
+	return
 	if get_tree().get_nodes_in_group("Asteroid").size() < 2:
 		spawn_asteroid()
 
@@ -35,7 +35,7 @@ func spawn_asteroid():
 	print("Mass: ", newAsteroid.get_mass())
 	
 	pixelCounter.countPolygonPixels(newAsteroid.visual)
-	
+	newAsteroid.apply_impulse(Vector2(0,300))
 
 
 func _on_timer_timeout():
