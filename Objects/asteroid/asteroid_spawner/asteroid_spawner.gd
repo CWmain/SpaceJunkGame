@@ -36,3 +36,8 @@ func spawn_asteroid():
 	
 	pixelCounter.countPolygonPixels(newAsteroid.visual)
 	
+
+
+func _on_timer_timeout():
+	if get_tree().get_nodes_in_group("Asteroid").size() < 5:
+		spawn_asteroid()
