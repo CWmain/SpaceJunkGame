@@ -12,7 +12,7 @@ var imageToCount: Image
 
 var scoreMutex: Mutex
 var scoreUpdate: bool = false
-signal scoreSignal
+signal scoreSignal(s: Dictionary)
 var score: Dictionary = {"r":0,"g":0,"b":0}
 
 #TODO: Update colour definitions when a new texture is made
@@ -50,8 +50,9 @@ func _exit_tree():
 
 func _process(_delta):
 	if scoreUpdate:
-		scoreSignal.emit()
+		scoreSignal.emit(score)
 		scoreUpdate = false
+		scoreMutex.unlock()
 
 #TODO: Think of a better name for the love of G*d
 ## Passed a visual polygon which will be placed in the viewport to have the picture taken
@@ -104,7 +105,7 @@ func countRGBPixels() -> void:
 			score[key] += asteroidMakeUp[key]
 			print(key, ": ", asteroidMakeUp[key])
 		scoreUpdate = true
-		scoreMutex.unlock()
+		
 
 func cmpColors(x: Color, y: Color) -> bool:
 	if (x.a8 != y.a8):
