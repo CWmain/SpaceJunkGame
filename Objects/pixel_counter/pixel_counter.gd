@@ -57,7 +57,9 @@ func _process(_delta):
 #TODO: Think of a better name for the love of G*d
 ## Passed a visual polygon which will be placed in the viewport to have the picture taken
 func countPolygonPixels(p: Polygon2D) -> void:
+	assert(p != null)
 	var ourPoly : Polygon2D = p.duplicate()
+	print(p.polygon)
 	sub_viewport.add_child(ourPoly)
 	ourPoly.position = Vector2(150,150)
 	ourPoly.rotation = 0

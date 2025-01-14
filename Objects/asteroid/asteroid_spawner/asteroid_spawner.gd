@@ -25,13 +25,13 @@ func spawn_asteroid():
 		newProperties = star.duplicate()
 
 
-	get_tree().get_root().add_child(newAsteroid)
 
 	#region Apply attributes to asteroid
 	print(newAsteroid.area)
 	newAsteroid.position = position
 	newAsteroid.properties = newProperties
 
+	get_tree().get_root().add_child(newAsteroid)
 	print("Mass: ", newAsteroid.get_mass())
 	
 	pixelCounter.countPolygonPixels(newAsteroid.visual)

@@ -5,7 +5,7 @@ var scoreUpdate: bool = false
 var score: Dictionary = {"r":0,"g":0,"b":0}
 
 @onready var collection_hit_box = $CollectionHitBox
-#@onready var pixel_counter = $pixelCounter
+
 @onready var scoreSign = $Sign
 
 @export var pixel_counter: SubViewport
@@ -52,6 +52,6 @@ func printAllPixels(myImage: Image):
 		if dict[key] > 200:
 			print(key, ": ", dict[key])
 
-func _on_score_signal():
-	scoreSign.label.set_text(str(pixel_counter.score))
+func _on_score_signal(s : Dictionary):
+	scoreSign.label.set_text(str(s))
 	
