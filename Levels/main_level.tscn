@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bcr0756d0phee"]
+[gd_scene load_steps=9 format=3 uid="uid://bcr0756d0phee"]
 
 [ext_resource type="PackedScene" uid="uid://dh48kb8haavxl" path="res://Objects/pixel_counter/pixel_counter.tscn" id="1_nchkd"]
 [ext_resource type="PackedScene" uid="uid://dyn3wc664s0kq" path="res://Objects/player_rocket/player_rocket.tscn" id="2_2mvgi"]
 [ext_resource type="PackedScene" uid="uid://cpextm7y55ils" path="res://Objects/asteroid/asteroid_spawner/asteroid_spawner.tscn" id="3_kquq7"]
 [ext_resource type="PackedScene" uid="uid://dxy7guq2edoc7" path="res://Objects/collection/collection.tscn" id="4_3djyo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mj0y0"]
+size = Vector2(820, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p0y11"]
 size = Vector2(100, 1080)
@@ -11,16 +14,19 @@ size = Vector2(100, 1080)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1f0gs"]
 size = Vector2(1920, 100)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l1y3x"]
+size = Vector2(100, 400)
+
 [node name="Main_Level" type="Node2D"]
 
 [node name="pixelCounter" parent="." instance=ExtResource("1_nchkd")]
 
 [node name="AsteroidSpawner" parent="." node_paths=PackedStringArray("pixelCounter") instance=ExtResource("3_kquq7")]
-position = Vector2(298, 4)
+position = Vector2(-1, -533)
 pixelCounter = NodePath("../pixelCounter")
 
 [node name="Collection" parent="." node_paths=PackedStringArray("pixel_counter") instance=ExtResource("4_3djyo")]
-position = Vector2(736, 25)
+position = Vector2(1012, -4)
 pixel_counter = NodePath("../pixelCounter")
 
 [node name="PlayerRocket" parent="." instance=ExtResource("2_2mvgi")]
@@ -30,8 +36,36 @@ position = Vector2(302, 272)
 
 [node name="Walls" type="Node2D" parent="."]
 
+[node name="TopWall" type="Node2D" parent="Walls"]
+
+[node name="Left" type="StaticBody2D" parent="Walls/TopWall"]
+position = Vector2(-550, -490)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/TopWall/Left"]
+shape = SubResource("RectangleShape2D_mj0y0")
+
+[node name="ColorRect" type="ColorRect" parent="Walls/TopWall/Left"]
+offset_left = -410.0
+offset_top = -50.0
+offset_right = 410.0
+offset_bottom = 50.0
+color = Color(1, 0, 0, 1)
+
+[node name="Right" type="StaticBody2D" parent="Walls/TopWall"]
+position = Vector2(550, -490)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/TopWall/Right"]
+shape = SubResource("RectangleShape2D_mj0y0")
+
+[node name="ColorRect" type="ColorRect" parent="Walls/TopWall/Right"]
+offset_left = -410.0
+offset_top = -50.0
+offset_right = 410.0
+offset_bottom = 50.0
+color = Color(1, 0, 0, 1)
+
 [node name="LeftWall" type="StaticBody2D" parent="Walls"]
-position = Vector2(-910, 0)
+position = Vector2(-910, -3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/LeftWall"]
 shape = SubResource("RectangleShape2D_p0y11")
@@ -56,28 +90,31 @@ offset_right = 960.0
 offset_bottom = 50.0
 color = Color(1, 0, 0, 1)
 
-[node name="RightWall" type="StaticBody2D" parent="Walls"]
-position = Vector2(910, 0)
+[node name="RightWall" type="Node2D" parent="Walls"]
+position = Vector2(-1, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall"]
-shape = SubResource("RectangleShape2D_p0y11")
+[node name="Bottom" type="StaticBody2D" parent="Walls/RightWall"]
+position = Vector2(911, 340)
 
-[node name="ColorRect" type="ColorRect" parent="Walls/RightWall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall/Bottom"]
+shape = SubResource("RectangleShape2D_l1y3x")
+
+[node name="ColorRect" type="ColorRect" parent="Walls/RightWall/Bottom"]
 offset_left = -50.0
-offset_top = -540.0
+offset_top = -200.0
 offset_right = 50.0
-offset_bottom = 540.0
+offset_bottom = 200.0
 color = Color(1, 0, 0, 1)
 
-[node name="TopWall" type="StaticBody2D" parent="Walls"]
-position = Vector2(0, -493)
+[node name="Top" type="StaticBody2D" parent="Walls/RightWall"]
+position = Vector2(910, -342)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/TopWall"]
-shape = SubResource("RectangleShape2D_1f0gs")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall/Top"]
+shape = SubResource("RectangleShape2D_l1y3x")
 
-[node name="ColorRect" type="ColorRect" parent="Walls/TopWall"]
-offset_left = -960.0
-offset_top = -50.0
-offset_right = 960.0
-offset_bottom = 50.0
+[node name="ColorRect" type="ColorRect" parent="Walls/RightWall/Top"]
+offset_left = -50.0
+offset_top = -200.0
+offset_right = 50.0
+offset_bottom = 200.0
 color = Color(1, 0, 0, 1)

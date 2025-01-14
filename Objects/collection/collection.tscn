@@ -24,6 +24,6 @@ collision_mask = 8
 shape = SubResource("RectangleShape2D_tg8pj")
 
 [node name="Sign" parent="." instance=ExtResource("3_i4v8q")]
-position = Vector2(1, -255)
+position = Vector2(-327, -4)
 
 [connection signal="body_entered" from="CollectionHitBox" to="." method="_on_collection_hit_box_body_entered"]
