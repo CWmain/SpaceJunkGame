@@ -8,6 +8,8 @@ var exitThread: bool = false
 var imageToCount: Image
 #endregion
 
+
+
 var scoreMutex: Mutex
 var scoreUpdate: bool = false
 signal scoreSignal
@@ -53,7 +55,7 @@ func _process(_delta):
 
 #TODO: Think of a better name for the love of G*d
 ## Passed a visual polygon which will be placed in the viewport to have the picture taken
-func visualPolygonImageGenerator(p: Polygon2D) -> void:
+func countPolygonPixels(p: Polygon2D) -> void:
 	var ourPoly : Polygon2D = p.duplicate()
 	sub_viewport.add_child(ourPoly)
 	ourPoly.position = Vector2(150,150)
@@ -68,7 +70,7 @@ func visualPolygonImageGenerator(p: Polygon2D) -> void:
 	pixelCountingMutex.unlock()
 	pixelCountingSemaphore.post()
 	
-	
+	ourPoly.queue_free()
 
 
 ## NOTE: Variable passed to countRGBPixels by the imageToCount global variable

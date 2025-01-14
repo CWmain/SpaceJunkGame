@@ -19,7 +19,7 @@ script = ExtResource("1_gvyoo")
 
 [node name="Collection" parent="." node_paths=PackedStringArray("pixel_counter") instance=ExtResource("4_f4wre")]
 position = Vector2(-291, -8)
-pixel_counter = NodePath("../pixelCounter")
+pixel_counter = NodePath("../SubViewportContainer/pixelCounter")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(1, 91)
@@ -45,6 +45,12 @@ properties = ExtResource("7_m1b64")
 
 [node name="AsteroidSpawner" parent="." node_paths=PackedStringArray("pixelCounter") instance=ExtResource("7_slesi")]
 position = Vector2(-607, -170)
-pixelCounter = NodePath("../pixelCounter")
+pixelCounter = NodePath("../SubViewportContainer/pixelCounter")
 
-[node name="pixelCounter" parent="." instance=ExtResource("8_745im")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_left = 431.0
+offset_top = -305.0
+offset_right = 471.0
+offset_bottom = -265.0
+
+[node name="pixelCounter" parent="SubViewportContainer" instance=ExtResource("8_745im")]

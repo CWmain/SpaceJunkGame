@@ -34,5 +34,5 @@ func spawn_asteroid():
 
 	print("Mass: ", newAsteroid.get_mass())
 	
-	pixelCounter.visualPolygonImageGenerator(newAsteroid.visual)
+	pixelCounter.countPolygonPixels(newAsteroid.visual)
 	

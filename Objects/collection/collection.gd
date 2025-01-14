@@ -35,7 +35,7 @@ func collectAsteroid() -> void:
 			continue
 		
 		var visualPoly: Polygon2D = ast.visual
-		pixel_counter.visualPolygonImageGenerator(visualPoly)
+		pixel_counter.countPolygonPixels(visualPoly)
 		
 		# Free the asteroid
 		ast.queue_free()
