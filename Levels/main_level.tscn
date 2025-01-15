@@ -106,6 +106,19 @@ offset_right = 50.0
 offset_bottom = 200.0
 color = Color(1, 0, 0, 1)
 
+[node name="Back" type="StaticBody2D" parent="Walls/RightWall"]
+position = Vector2(983, 21)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall/Back"]
+shape = SubResource("RectangleShape2D_l1y3x")
+
+[node name="ColorRect" type="ColorRect" parent="Walls/RightWall/Back"]
+offset_left = -50.0
+offset_top = -200.0
+offset_right = 50.0
+offset_bottom = 200.0
+color = Color(1, 0, 0, 1)
+
 [node name="Top" type="StaticBody2D" parent="Walls/RightWall"]
 position = Vector2(910, -342)
 

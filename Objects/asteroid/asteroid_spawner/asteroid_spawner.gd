@@ -10,9 +10,7 @@ func _ready():
 	assert(pixelCounter != null)
 
 func _process(_delta):
-	return
-	if get_tree().get_nodes_in_group("Asteroid").size() < 2:
-		spawn_asteroid()
+	pass
 
 func spawn_asteroid():
 	var newAsteroid: Asteroid = asteroid.instantiate()
