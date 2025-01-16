@@ -39,5 +39,5 @@ func spawn_asteroid():
 
 
 func _on_timer_timeout():
-	if get_tree().get_nodes_in_group("Asteroid").size() < 5:
+	if get_tree().get_nodes_in_group("Asteroid").size() < 20:
 		spawn_asteroid()
