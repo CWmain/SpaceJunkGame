@@ -1,8 +1,6 @@
 extends Node2D
 
-var scoreMutex: Mutex
-var scoreUpdate: bool = false
-var score: Dictionary = {"r":0,"g":0,"b":0}
+var myID : String = "Collector"
 
 @onready var collection_hit_box = $CollectionHitBox
 
@@ -12,15 +10,12 @@ var score: Dictionary = {"r":0,"g":0,"b":0}
 
 
 func _ready():
-	scoreMutex = Mutex.new()
-	
 	# TODO: Sign can be moved out of collection into its own node since there is now one common
 	# Connect the singal update to update the sign
 	pixel_counter.scoreSignal.connect(_on_score_signal)
 
 func _process(_delta):
-	if Input.is_action_just_pressed("PlacePoint"):
-		print(score)
+	pass
 	
 
 	
@@ -35,7 +30,7 @@ func collectAsteroid() -> void:
 			continue
 		
 		var visualPoly: Polygon2D = ast.visual
-		pixel_counter.countPolygonPixels(visualPoly)
+		pixel_counter.countPolygonPixels(myID, visualPoly)
 		
 		# Free the asteroid
 		ast.queue_free()
@@ -52,6 +47,7 @@ func printAllPixels(myImage: Image):
 		if dict[key] > 200:
 			print(key, ": ", dict[key])
 
-func _on_score_signal(s : Dictionary):
-	scoreSign.label.set_text(str(s))
+func _on_score_signal(id: String, s : Dictionary):
+	var toDisplay: String = "From %s\n%s" % [id, str(s)]
+	scoreSign.label.set_text(toDisplay)
 	

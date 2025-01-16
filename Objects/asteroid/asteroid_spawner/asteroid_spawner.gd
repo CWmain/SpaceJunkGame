@@ -4,6 +4,8 @@ var asteroid = preload("res://Objects/asteroid/asteroid.tscn")
 var def = preload("res://Objects/asteroid/base_asteroids/default.tres")
 var star = preload("res://Objects/asteroid/base_asteroids/star.tres")
 
+var myID : String = "Spawner"
+
 @export var pixelCounter: SubViewport
 
 func _ready():
@@ -34,9 +36,9 @@ func spawn_asteroid():
 	get_tree().get_root().add_child(newAsteroid)
 	print("Mass: ", newAsteroid.get_mass())
 	
-	pixelCounter.countPolygonPixels(newAsteroid.visual)
-	# Slightly Randomise impluse direction (from +-PI/4)
+	pixelCounter.countPolygonPixels(myID, newAsteroid.visual)
 	
+	# Slightly Randomise impluse direction (from +-PI/4)	
 	newAsteroid.apply_impulse(Vector2(0,300).rotated(Global.rng.randf_range(-PI/4, PI/4)))
 
 

@@ -6,13 +6,15 @@ var pixelCountingSemaphore: Semaphore
 var pixelCountingMutex: Mutex
 var exitThread: bool = false
 var imageToCount: Image
+var requestID: String
 #endregion
 
 
 
 var scoreMutex: Mutex
 var scoreUpdate: bool = false
-signal scoreSignal(s: Dictionary)
+## ID used to idenitfy who requested the count
+signal scoreSignal(id : String, s: Dictionary)
 var score: Dictionary = {"r":0,"g":0,"b":0}
 
 #TODO: Update colour definitions when a new texture is made
@@ -50,13 +52,14 @@ func _exit_tree():
 
 func _process(_delta):
 	if scoreUpdate:
-		scoreSignal.emit(score)
+		scoreSignal.emit(requestID, score)
 		scoreUpdate = false
+		score = {"r":0,"g":0,"b":0}
 		scoreMutex.unlock()
 
 #TODO: Think of a better name for the love of G*d
 ## Passed a visual polygon which will be placed in the viewport to have the picture taken
-func countPolygonPixels(p: Polygon2D) -> void:
+func countPolygonPixels(id : String, p: Polygon2D) -> void:
 	assert(p != null)
 	var ourPoly : Polygon2D = p.duplicate()
 	print(p.polygon)
@@ -68,9 +71,12 @@ func countPolygonPixels(p: Polygon2D) -> void:
 	print("Attempting to make image")
 	var myImage : Image = sub_viewport.get_texture().get_image()
 	
+	# Unlocked in process, after completion of 
+	scoreMutex.lock()
+	# Unlocked in countRGBPixels
 	pixelCountingMutex.lock()
+	requestID = id
 	imageToCount = myImage
-	pixelCountingMutex.unlock()
 	pixelCountingSemaphore.post()
 	
 	ourPoly.queue_free()
@@ -81,16 +87,17 @@ func countPolygonPixels(p: Polygon2D) -> void:
 func countRGBPixels() -> void:
 	while true:
 		pixelCountingSemaphore.wait()
-		pixelCountingMutex.lock()
+
 		var shouldExit = exitThread
-		pixelCountingMutex.unlock()
+		
 		
 		if shouldExit: break
 		
-		#Store locally to decrease the time locked
-		pixelCountingMutex.lock()
+		# Store locally to decrease the time locked
 		var localImageToCount: Image = imageToCount.duplicate()
+		# pixelCountingMutex is locked in countPoloygonPixels
 		pixelCountingMutex.unlock()
+		
 		var asteroidMakeUp: Dictionary = {"r":0,"g":0,"b":0}
 		for i in range(0,300):
 			for j in range(0,300):
@@ -102,7 +109,7 @@ func countRGBPixels() -> void:
 				if (cmpColors(blue,testColor)):
 					asteroidMakeUp["b"] += 1
 
-		scoreMutex.lock()
+		
 		for key in asteroidMakeUp.keys():
 			score[key] += asteroidMakeUp[key]
 			print(key, ": ", asteroidMakeUp[key])
