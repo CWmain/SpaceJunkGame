@@ -22,7 +22,9 @@ func spawn_asteroid():
 	else:
 		newProperties = star.duplicate()
 
-
+	# Randomise the texture offset and rotation
+	newProperties.textureOffest = Vector2(round(Global.rng.randf_range(0,255)),round(Global.rng.randf_range(0,255)))
+	newProperties.textureRotation = round(Global.rng.randf_range(0,360))
 
 	#region Apply attributes to asteroid
 	print(newAsteroid.area)
