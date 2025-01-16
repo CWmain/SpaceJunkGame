@@ -35,7 +35,9 @@ func spawn_asteroid():
 	print("Mass: ", newAsteroid.get_mass())
 	
 	pixelCounter.countPolygonPixels(newAsteroid.visual)
-	newAsteroid.apply_impulse(Vector2(0,300))
+	# Slightly Randomise impluse direction (from +-PI/4)
+	
+	newAsteroid.apply_impulse(Vector2(0,300).rotated(Global.rng.randf_range(-PI/4, PI/4)))
 
 
 func _on_timer_timeout():
