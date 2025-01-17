@@ -39,7 +39,7 @@ polygon = PackedVector2Array(32, -100, 0, -100, 0, 0, 32, 0)
 SPEED = 1000.0
 player_rocket = NodePath("..")
 
-[node name="TetherSpring" type="DampedSpringJoint2D" parent="."]
-rotation = 3.14159
-node_a = NodePath("..")
-disable_collision = false
+[node name="BoostTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="BoostTimer" to="." method="_on_timer_timeout"]

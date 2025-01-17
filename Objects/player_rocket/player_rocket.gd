@@ -1,18 +1,19 @@
 extends RigidBody2D
 
 
-const STOP_SPEED = 300.0*60
+const STOP_SPEED = 18000.0
 const ROTATION_SPEED = (PI/64) * 60
 
 const THRUST_VELOCITY = Vector2(0,-18000)
 
+const BOOST = 300
+var canBoost: bool = true
 
 @onready var cutting_tool = $CuttingTool
 @onready var collision_polygon = $CuttingTool/CollisionPolygon
 
 @onready var player_rocket = $"."
 @onready var tether_hook = $TetherHook
-@onready var tether_spring = $TetherSpring
 
 var asteroid = preload("res://Objects/asteroid/asteroid.tscn")
 var tetherSet = false
@@ -35,10 +36,10 @@ func _physics_process(delta):
 		apply_force(THRUST_VELOCITY.rotated(rotation) * delta)
 
 		
-	if Input.is_action_pressed("Stop") and false:
-		linear_velocity.x = move_toward(linear_velocity.x, 0, STOP_SPEED*delta)
-		linear_velocity.y = move_toward(linear_velocity.y, 0, STOP_SPEED*delta)
-		angular_velocity = move_toward(angular_velocity, 0, STOP_SPEED*delta)
+	if Input.is_action_pressed("Boost") and canBoost:
+		apply_impulse(Vector2(0,-BOOST).rotated(rotation))
+		canBoost = false
+
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -115,3 +116,7 @@ func asteroidCut():
 		
 		entity.queue_free()
 
+
+
+func _on_timer_timeout():
+	canBoost = true
