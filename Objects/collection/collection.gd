@@ -6,9 +6,12 @@ extends Node2D
 @export var myID : String = "ERROR"
 @export var pixel_counter: SubViewport
 
+@onready var label = $Label
+
 
 func _ready():
 	assert(myID != "ERROR")
+	label.text = myID
 
 func _process(_delta):
 	pass
