@@ -36,12 +36,11 @@ func _physics_process(delta):
 	# Handle jump.
 	if Input.is_action_pressed("Accelerate"):
 		#linear_velocity += THRUST_VELOCITY.rotated(rotation)
-		apply_force(THRUST_VELOCITY.rotated(rotation) * delta)
+		rocketForwards(delta)
 
 		
 	if Input.is_action_pressed("Boost") and canBoost:
-		apply_impulse(Vector2(0,-BOOST).rotated(rotation))
-		canBoost = false
+		rocketBoost()
 
 	if Input.is_action_pressed("Push") and canPush:
 		asteroidPush()
@@ -57,8 +56,15 @@ func _physics_process(delta):
 		tether_hook.fire_tether()
 		
 
+func rocketForwards(delta:float) -> void:
+	apply_force(THRUST_VELOCITY.rotated(rotation) * delta)
 
-func asteroidCut():
+	
+func rocketBoost() -> void:
+	canBoost = false
+	apply_impulse(Vector2(0,-BOOST).rotated(rotation))
+
+func asteroidCut() -> void:
 	for entity in cutting_tool.get_overlapping_bodies():
 		var entityProperties : AsteroidProperties = entity.properties
 
@@ -121,7 +127,7 @@ func asteroidCut():
 		
 		entity.queue_free()
 
-func asteroidPush():
+func asteroidPush() -> void:
 	canPush = false
 	print("asteroidPush: Attempting Push")
 	for entity in cutting_tool.get_overlapping_bodies():
