@@ -1,11 +1,11 @@
 extends Node2D
 
-var SPEED: float = 300
 var TETHER_DISTANCE = 600
 
 var active: bool = false
 var pull: bool = false
 
+@export var SPEED: float = 300
 @export var MIN_TETHER_DISTANCE = 10
 @export var MAX_TETHER_DISTANCE = 600
 @export var PULL_FORCE: float = 57600

@@ -118,6 +118,8 @@ sources/2 = SubResource("TileSetAtlasSource_gehgx")
 [node name="AsteroidSpawner" parent="." node_paths=PackedStringArray("pixelCounter") instance=ExtResource("3_kquq7")]
 position = Vector2(-1, -533)
 pixelCounter = NodePath("../pixelCounter")
+spawnForce = 100.0
+spawnGap = 5.0
 
 [node name="Red" parent="." node_paths=PackedStringArray("pixel_counter") instance=ExtResource("4_3djyo")]
 position = Vector2(329, 672)

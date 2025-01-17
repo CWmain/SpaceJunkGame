@@ -4,12 +4,24 @@ var asteroid = preload("res://Objects/asteroid/asteroid.tscn")
 var def = preload("res://Objects/asteroid/base_asteroids/default.tres")
 var star = preload("res://Objects/asteroid/base_asteroids/star.tres")
 
+@onready var timer = $Timer
+
 var myID : String = "Spawner"
 
 @export var pixelCounter: SubViewport
 
+## The +- spawn angle
+@export var spawnAngle: float = PI/4
+
+## The 1-Time force applied to a newly spawned asteroid
+@export var spawnForce: float = 300
+
+## The time gap in seconds between spawns
+@export var spawnGap: float = 1
+
 func _ready():
 	assert(pixelCounter != null)
+	timer.wait_time = spawnGap
 
 func _process(_delta):
 	pass
@@ -38,8 +50,8 @@ func spawn_asteroid():
 	
 	pixelCounter.countPolygonPixels(myID, newAsteroid.visual)
 	
-	# Slightly Randomise impluse direction (from +-PI/4)	
-	newAsteroid.apply_impulse(Vector2(0,300).rotated(Global.rng.randf_range(-PI/4, PI/4)))
+	# Slightly Randomise impluse direction (from +-spawnAngle)	
+	newAsteroid.apply_impulse(Vector2(0,spawnForce).rotated(Global.rng.randf_range(-spawnAngle, spawnAngle)))
 
 
 func _on_timer_timeout():

@@ -36,6 +36,7 @@ polygon = PackedVector2Array(32, -100, 0, -100, 0, 0, 32, 0)
 polygon = PackedVector2Array(32, -100, 0, -100, 0, 0, 32, 0)
 
 [node name="TetherHook" parent="." node_paths=PackedStringArray("player_rocket") instance=ExtResource("3_o8ciw")]
+SPEED = 1000.0
 player_rocket = NodePath("..")
 
 [node name="TetherSpring" type="DampedSpringJoint2D" parent="."]
