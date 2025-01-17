@@ -2,11 +2,14 @@ extends RigidBody2D
 
 
 const STOP_SPEED = 18000.0
-const ROTATION_SPEED = (PI/64) * 60
+const ROTATION_SPEED = (PI/64) * 60 * 1.5
 
 const THRUST_VELOCITY = Vector2(0,-18000)
 
-const BOOST = 300
+@export var PUSH_FORCE: float = 1000
+var canPush: bool = true
+
+@export var BOOST: float = 300
 var canBoost: bool = true
 
 @onready var cutting_tool = $CuttingTool
@@ -40,6 +43,8 @@ func _physics_process(delta):
 		apply_impulse(Vector2(0,-BOOST).rotated(rotation))
 		canBoost = false
 
+	if Input.is_action_pressed("Push") and canPush:
+		asteroidPush()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -116,7 +121,17 @@ func asteroidCut():
 		
 		entity.queue_free()
 
-
+func asteroidPush():
+	canPush = false
+	print("asteroidPush: Attempting Push")
+	for entity in cutting_tool.get_overlapping_bodies():
+		# Get the vector from the rocket to the asteroid
+		var directionVector : Vector2 = (entity.position - position).normalized()
+		entity.apply_impulse(directionVector*PUSH_FORCE)
 
 func _on_timer_timeout():
 	canBoost = true
+
+
+func _on_push_timer_timeout():
+	canPush = true

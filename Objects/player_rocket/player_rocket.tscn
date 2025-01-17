@@ -39,7 +39,13 @@ polygon = PackedVector2Array(32, -100, 0, -100, 0, 0, 32, 0)
 SPEED = 1000.0
 player_rocket = NodePath("..")
 
-[node name="BoostTimer" type="Timer" parent="."]
+[node name="Timers" type="Node" parent="."]
+
+[node name="PushTimer" type="Timer" parent="Timers"]
 autostart = true
 
-[connection signal="timeout" from="BoostTimer" to="." method="_on_timer_timeout"]
+[node name="BoostTimer" type="Timer" parent="Timers"]
+autostart = true
+
+[connection signal="timeout" from="Timers/PushTimer" to="." method="_on_push_timer_timeout"]
+[connection signal="timeout" from="Timers/BoostTimer" to="." method="_on_timer_timeout"]
