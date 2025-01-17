@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dxy7guq2edoc7"]
+[gd_scene load_steps=3 format=3 uid="uid://dxy7guq2edoc7"]
 
 [ext_resource type="Script" path="res://Objects/collection/collection.gd" id="1_4t4bj"]
-[ext_resource type="PackedScene" uid="uid://cujpysrpho40" path="res://Objects/collection/collection_sign/collection_sign.tscn" id="3_i4v8q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tg8pj"]
 size = Vector2(300, 300)
@@ -22,8 +21,5 @@ collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollectionHitBox"]
 shape = SubResource("RectangleShape2D_tg8pj")
-
-[node name="Sign" parent="." instance=ExtResource("3_i4v8q")]
-position = Vector2(-327, -4)
 
 [connection signal="body_entered" from="CollectionHitBox" to="." method="_on_collection_hit_box_body_entered"]

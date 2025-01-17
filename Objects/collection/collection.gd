@@ -1,18 +1,14 @@
 extends Node2D
 
-var myID : String = "Collector"
 
 @onready var collection_hit_box = $CollectionHitBox
 
-@onready var scoreSign = $Sign
-
+@export var myID : String = "ERROR"
 @export var pixel_counter: SubViewport
 
 
 func _ready():
-	# TODO: Sign can be moved out of collection into its own node since there is now one common
-	# Connect the singal update to update the sign
-	pixel_counter.scoreSignal.connect(_on_score_signal)
+	assert(myID != "ERROR")
 
 func _process(_delta):
 	pass
@@ -46,8 +42,4 @@ func printAllPixels(myImage: Image):
 	for key in dict.keys():
 		if dict[key] > 200:
 			print(key, ": ", dict[key])
-
-func _on_score_signal(id: String, s : Dictionary):
-	var toDisplay: String = "From %s\n%s" % [id, str(s)]
-	scoreSign.label.set_text(toDisplay)
 	
