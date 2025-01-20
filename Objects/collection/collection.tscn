@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dxy7guq2edoc7"]
+[gd_scene load_steps=4 format=3 uid="uid://dxy7guq2edoc7"]
 
 [ext_resource type="Script" path="res://Objects/collection/collection.gd" id="1_4t4bj"]
+[ext_resource type="PackedScene" uid="uid://dh48kb8haavxl" path="res://Objects/pixel_counter/pixel_counter.tscn" id="2_a7av1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tg8pj"]
 size = Vector2(300, 300)
@@ -15,6 +16,8 @@ offset_right = 150.0
 offset_bottom = 150.0
 color = Color(0, 0, 0, 1)
 
+[node name="pixelCounter" parent="." instance=ExtResource("2_a7av1")]
+
 [node name="CollectionHitBox" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 8
@@ -28,4 +31,5 @@ offset_top = -194.0
 offset_right = 23.0
 offset_bottom = -171.0
 
+[connection signal="scoreSignal" from="pixelCounter" to="." method="_on_pixel_counter_score_signal"]
 [connection signal="body_entered" from="CollectionHitBox" to="." method="_on_collection_hit_box_body_entered"]

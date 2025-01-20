@@ -1,11 +1,11 @@
 extends Node2D
-
+class_name Collector
 
 @onready var collection_hit_box = $CollectionHitBox
+@onready var pixel_counter = $pixelCounter
 
 @export var myID : String = "ERROR"
-@export var pixel_counter: SubViewport
-
+signal scoreSignal(id : String, s: Dictionary)
 @onready var label = $Label
 
 
@@ -46,3 +46,9 @@ func printAllPixels(myImage: Image):
 		if dict[key] > 200:
 			print(key, ": ", dict[key])
 	
+
+
+func _on_pixel_counter_score_signal(id, s):
+	print("%s recived\nvalues = %s" % [id, str(s)])
+	# Re-emit signal from collector to moneyManager
+	scoreSignal.emit(id,s)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bcr0756d0phee"]
+[gd_scene load_steps=10 format=3 uid="uid://bcr0756d0phee"]
 
 [ext_resource type="PackedScene" uid="uid://dh48kb8haavxl" path="res://Objects/pixel_counter/pixel_counter.tscn" id="1_nchkd"]
+[ext_resource type="PackedScene" uid="uid://do3fa66pwn6dc" path="res://Objects/money_manager/money_manager.tscn" id="1_ycjy2"]
 [ext_resource type="PackedScene" uid="uid://dyn3wc664s0kq" path="res://Objects/player_rocket/player_rocket.tscn" id="2_2mvgi"]
 [ext_resource type="PackedScene" uid="uid://cpextm7y55ils" path="res://Objects/asteroid/asteroid_spawner/asteroid_spawner.tscn" id="3_kquq7"]
 [ext_resource type="PackedScene" uid="uid://dxy7guq2edoc7" path="res://Objects/collection/collection.tscn" id="4_3djyo"]
@@ -113,6 +114,9 @@ sources/2 = SubResource("TileSetAtlasSource_gehgx")
 
 [node name="Main_Level" type="Node2D"]
 
+[node name="MoneyManager" parent="." node_paths=PackedStringArray("collectors") instance=ExtResource("1_ycjy2")]
+collectors = [NodePath("../Red"), NodePath("../Green"), NodePath("../Blue")]
+
 [node name="pixelCounter" parent="." instance=ExtResource("1_nchkd")]
 
 [node name="AsteroidSpawner" parent="." node_paths=PackedStringArray("pixelCounter") instance=ExtResource("3_kquq7")]
@@ -121,20 +125,17 @@ pixelCounter = NodePath("../pixelCounter")
 spawnForce = 100.0
 spawnGap = 20.0
 
-[node name="Red" parent="." node_paths=PackedStringArray("pixel_counter") instance=ExtResource("4_3djyo")]
+[node name="Red" parent="." instance=ExtResource("4_3djyo")]
 position = Vector2(329, 672)
 myID = "Red"
-pixel_counter = NodePath("../pixelCounter")
 
-[node name="Green" parent="." node_paths=PackedStringArray("pixel_counter") instance=ExtResource("4_3djyo")]
+[node name="Green" parent="." instance=ExtResource("4_3djyo")]
 position = Vector2(-158, 672)
 myID = "Green"
-pixel_counter = NodePath("../pixelCounter")
 
-[node name="Blue" parent="." node_paths=PackedStringArray("pixel_counter") instance=ExtResource("4_3djyo")]
+[node name="Blue" parent="." instance=ExtResource("4_3djyo")]
 position = Vector2(-649, 672)
 myID = "Blue"
-pixel_counter = NodePath("../pixelCounter")
 
 [node name="PlayerRocket" parent="." instance=ExtResource("2_2mvgi")]
 position = Vector2(302, 272)
