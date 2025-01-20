@@ -8,8 +8,6 @@ var star = preload("res://Objects/asteroid/base_asteroids/star.tres")
 
 var myID : String = "Spawner"
 
-@export var pixelCounter: SubViewport
-
 ## The +- spawn angle
 @export var spawnAngle: float = PI/4
 
@@ -20,7 +18,6 @@ var myID : String = "Spawner"
 @export var spawnGap: float = 1
 
 func _ready():
-	assert(pixelCounter != null)
 	timer.wait_time = spawnGap
 
 func _process(_delta):
@@ -47,8 +44,6 @@ func spawn_asteroid():
 
 	get_tree().get_root().add_child(newAsteroid)
 	print("Mass: ", newAsteroid.get_mass())
-	
-	pixelCounter.countPolygonPixels(myID, newAsteroid.visual)
 	
 	# Slightly Randomise impluse direction (from +-spawnAngle)	
 	newAsteroid.apply_impulse(Vector2(0,spawnForce).rotated(Global.rng.randf_range(-spawnAngle, spawnAngle)))
