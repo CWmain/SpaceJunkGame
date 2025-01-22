@@ -29,10 +29,8 @@ func _process(_delta):
 		asteroidCut()
 
 func _physics_process(delta):
-	# Add the drag.
-	#if not is_on_floor():
-	#	velocity.y += gravity * delta
-
+	#print("PR: Linear Velocity = %s" % [linear_velocity])
+	
 	# Handle jump.
 	if Input.is_action_pressed("Accelerate"):
 		#linear_velocity += THRUST_VELOCITY.rotated(rotation)
@@ -57,7 +55,15 @@ func _physics_process(delta):
 		
 
 func rocketForwards(delta:float) -> void:
-	apply_force(THRUST_VELOCITY.rotated(rotation) * delta)
+	var forceToApply: Vector2 = THRUST_VELOCITY.rotated(rotation)
+	var turningAngle: float = linear_velocity.angle_to(forceToApply)
+
+	# When attempting to change direction apply a greater force to allow for quicker accelaration
+	if (turningAngle > 3*PI/4 or turningAngle < -3*PI/4):
+		apply_force(forceToApply * 2 * delta)
+
+	# Currently always apply the fowards force as it has no negative affect on the above
+	apply_force(forceToApply * delta)
 
 	
 func rocketBoost() -> void:
