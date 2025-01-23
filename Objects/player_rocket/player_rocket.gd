@@ -5,6 +5,7 @@ const STOP_SPEED = 18000.0
 const ROTATION_SPEED = (PI/64) * 60 * 1.5
 
 const THRUST_VELOCITY = Vector2(0,-18000)
+const DRAG_FORCE = 60.0
 
 @export var PUSH_FORCE: float = 1000
 var canPush: bool = true
@@ -30,8 +31,9 @@ func _process(_delta):
 
 func _physics_process(delta):
 	#print("PR: Linear Velocity = %s" % [linear_velocity])
+	# Add drag
+	rocketDrag(delta)
 	
-	# Handle jump.
 	if Input.is_action_pressed("Accelerate"):
 		#linear_velocity += THRUST_VELOCITY.rotated(rotation)
 		rocketForwards(delta)
@@ -52,7 +54,18 @@ func _physics_process(delta):
 		
 	if Input.is_action_just_pressed("Tether"):
 		tether_hook.fire_tether()
-		
+	
+	
+	
+func rocketDrag(delta: float) -> void:
+	var dragForce : Vector2 = linear_velocity.normalized()*DRAG_FORCE*-delta
+	
+	if abs(dragForce) > abs(linear_velocity):
+		linear_velocity = Vector2.ZERO
+		print("Zero")
+	else:
+		linear_velocity += dragForce
+
 
 func rocketForwards(delta:float) -> void:
 	var forceToApply: Vector2 = THRUST_VELOCITY.rotated(rotation)
@@ -69,6 +82,7 @@ func rocketForwards(delta:float) -> void:
 func rocketBoost() -> void:
 	canBoost = false
 	apply_impulse(Vector2(0,-BOOST).rotated(rotation))
+	print("a")
 
 func asteroidCut() -> void:
 	for entity in cutting_tool.get_overlapping_bodies():
