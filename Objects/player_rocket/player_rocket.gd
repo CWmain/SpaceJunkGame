@@ -29,7 +29,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func _process(_delta):
 	if Input.is_action_just_pressed("Cut"):
 		tether_hook.reset_tether()
-		#asteroidCut()
+		asteroidCut()
 		shootBullet()
 
 func _physics_process(delta):
