@@ -20,6 +20,8 @@ var canBoost: bool = true
 @onready var tether_hook = $TetherHook
 
 var asteroid = preload("res://Objects/asteroid/asteroid.tscn")
+var bullet = preload("res://Objects/mine_bullet/mine_bullet.tscn")
+
 var tetherSet = false
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -27,7 +29,8 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func _process(_delta):
 	if Input.is_action_just_pressed("Cut"):
 		tether_hook.reset_tether()
-		asteroidCut()
+		#asteroidCut()
+		shootBullet()
 
 func _physics_process(delta):
 	#print("PR: Linear Velocity = %s" % [linear_velocity])
@@ -62,7 +65,6 @@ func rocketDrag(delta: float) -> void:
 	
 	if abs(dragForce) > abs(linear_velocity):
 		linear_velocity = Vector2.ZERO
-		print("Zero")
 	else:
 		linear_velocity += dragForce
 
@@ -146,6 +148,12 @@ func asteroidCut() -> void:
 			print("\n NEW \n")
 		
 		entity.queue_free()
+
+func shootBullet() -> void:
+	var newBullet = bullet.instantiate()
+	newBullet.transform = transform
+	get_tree().get_root().add_child(newBullet)
+	pass
 
 func asteroidPush() -> void:
 	canPush = false
